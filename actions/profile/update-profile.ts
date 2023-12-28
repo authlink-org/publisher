@@ -63,17 +63,21 @@ export default async function UpdateProfile(
       workink_api: workink_api,
     });
 
-    prisma.profile.update({
-      where: {
-        clerk: clerk,
-      },
-      data: {
-        username: username,
-        aboutme: aboutme,
-        linkvertise_api: linkvertise_api,
-        workink_api: workink_api,
-      },
-    });
+    await prisma.profile
+      .update({
+        where: {
+          clerk: clerk,
+        },
+        data: {
+          username: username,
+          aboutme: aboutme,
+          linkvertise_api: linkvertise_api,
+          workink_api: workink_api,
+        },
+      })
+      .catch((Err) => {
+        console.error(Err);
+      });
 
     return {
       success: true,
