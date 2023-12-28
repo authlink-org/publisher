@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:6fE*c45EAaBba4FGGBee*E22ggDA*bEb@roundhouse.proxy.rlwy.net:25588/railway"
+  //url      = env("DATABASE_URL")
+}
+
+model Profile {
+  // id
+  id    String @id @default(uuid())
+  clerk String @unique
+
+  // metadata
+  username String  @unique
+  aboutme  String?
+  views    Int
+
+  // identifiers
+  linkvertise_api String?
+  workink_api     String?
+
+  projects Project[]
+  logs     Log[]
+}
+
+model Project {
+  // id
+  id String @id @default(uuid())
+
+  // metadata
+  title       String
+  description String?
+  active      Boolean
+  verified    Boolean
+  createdAt   DateTime @default(now()) @db.Date
+  views       Int
+
+  image_url   String?
+  youtube_url String?
+
+  // identifiers
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}
+
+model Log {
+  id   Int      @id @default(autoincrement())
+  date DateTime @default(now()) @db.Date
+
+  views       Int
+  generations Int
+  skips       Int
+
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?
+}
