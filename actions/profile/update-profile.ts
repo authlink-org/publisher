@@ -39,6 +39,7 @@ const Profile = z.object({
 });
 
 import IsNameTaken from "./is-name-taken";
+import ClerkExists from "./clerk-exists";
 
 export default async function UpdateProfile(
   clerk: string,
@@ -54,7 +55,6 @@ export default async function UpdateProfile(
     return { success: false, message: "Username is already taken." };
   }
 
-  console.log("Trying");
   try {
     Profile.parse({
       username: username,
@@ -63,9 +63,7 @@ export default async function UpdateProfile(
       workink_api: workink_api,
     });
 
-    console.log("Updating prisma profile");
-    console.log(clerk);
-    await prisma.profile.update({
+    prisma.profile.update({
       where: {
         clerk: clerk,
       },

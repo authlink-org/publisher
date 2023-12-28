@@ -221,11 +221,11 @@ export default function ProfileSetup() {
               if (WI_ELEMENT && WI_ELEMENT.value !== "") {
                 WorkInk = WI_ELEMENT.value;
               }
-              if (Clerk?.client?.id) {
+              if (Clerk?.user?.id) {
                 const Result:
                   | { success: boolean; message: string }
                   | undefined = await UpdateProfile(
-                  Clerk.client.id,
+                  Clerk.user.id,
                   Username,
                   AboutMe,
                   Linkvertise,

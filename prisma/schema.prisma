@@ -4,8 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:6fE*c45EAaBba4FGGBee*E22ggDA*bEb@roundhouse.proxy.rlwy.net:25588/railway"
-  //url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Profile {
@@ -42,8 +41,9 @@ model Project {
   youtube_url String?
 
   // identifiers
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
+
+  Profile      Profile? @relation(fields: [profileClerk], references: [clerk])
+  profileClerk String?
 }
 
 model Log {
@@ -54,6 +54,6 @@ model Log {
   generations Int
   skips       Int
 
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?
+  Profile      Profile? @relation(fields: [profileClerk], references: [clerk])
+  profileClerk String?
 }

@@ -10,7 +10,6 @@ export default async function GetProfile(clerk: string, email: string) {
   if (!Exists) {
     await CreateProfile(clerk, email);
   }
-  console.log(clerk);
   return await prisma.profile.findFirst({
     where: {
       clerk: clerk,

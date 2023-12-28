@@ -60,16 +60,16 @@ export default function UpdateProfileButton() {
   });
   const Clerk = useClerk();
 
-  useEffect(() => {
-    if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
-      GetProfile(
-        Clerk.user.id,
-        Clerk.user.primaryEmailAddress.emailAddress
-      ).then((Profile) => {
-        setProfile(Profile);
-      });
-    }
-  }, [IsOpen]);
+  // useEffect(() => {
+  //   if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
+  //     GetProfile(
+  //       Clerk.user.id,
+  //       Clerk.user.primaryEmailAddress.emailAddress
+  //     ).then((Profile) => {
+  //       setProfile(Profile);
+  //     });
+  //   }
+  // }, [IsOpen]);
 
   useEffect(() => {
     setResponse({ success: true, message: "" });
@@ -90,21 +90,17 @@ export default function UpdateProfileButton() {
           size="sm"
           disabled={IsLoadingProfile}
           onClick={() => {
-            if (Profile?.username !== "") {
-              setIsOpen(true);
-            } else {
-              setIsLoadingProfile(true);
-              if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
-                console.log(Clerk.user.id);
-                GetProfile(
-                  Clerk.user.id,
-                  Clerk.user.primaryEmailAddress.emailAddress
-                ).then((Profile) => {
-                  setProfile(Profile);
-                  setIsLoadingProfile(false);
-                  setIsOpen(true);
-                });
-              }
+            setIsLoadingProfile(true);
+            if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
+              console.log(Clerk.user.id);
+              GetProfile(
+                Clerk.user.id,
+                Clerk.user.primaryEmailAddress.emailAddress
+              ).then((Profile) => {
+                setProfile(Profile);
+                setIsLoadingProfile(false);
+                setIsOpen(true);
+              });
             }
           }}
         >
@@ -210,11 +206,11 @@ export default function UpdateProfileButton() {
               if (WI_ELEMENT && WI_ELEMENT.value !== "") {
                 WorkInk = WI_ELEMENT.value;
               }
-              if (Clerk?.client?.id) {
+              if (Clerk?.user?.id) {
                 const Result:
                   | { success: boolean; message: string }
                   | undefined = await UpdateProfile(
-                  Clerk.client.id,
+                  Clerk.user.id,
                   Username,
                   AboutMe,
                   Linkvertise,
