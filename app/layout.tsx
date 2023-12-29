@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, useClerk } from "@clerk/nextjs";
+
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "AuthLink.org - Publisher Dashboard",

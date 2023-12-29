@@ -62,10 +62,7 @@ export default function UpdateProfileDialog() {
 
   useEffect(() => {
     if (Clerk?.client?.id && Clerk?.user?.primaryEmailAddress) {
-      GetProfile(
-        Clerk.client.id,
-        Clerk.user.primaryEmailAddress.emailAddress
-      ).then((Profile) => {
+      GetProfile(Clerk.client.id).then((Profile) => {
         setProfile(Profile);
       });
     }
@@ -93,10 +90,7 @@ export default function UpdateProfileDialog() {
             } else {
               setIsLoadingProfile(true);
               if (Clerk?.client?.id && Clerk?.user?.primaryEmailAddress) {
-                GetProfile(
-                  Clerk.client.id,
-                  Clerk.user.primaryEmailAddress.emailAddress
-                ).then((Profile) => {
+                GetProfile(Clerk.client.id).then((Profile) => {
                   setProfile(Profile);
                   setIsLoadingProfile(false);
                   setIsOpen(true);

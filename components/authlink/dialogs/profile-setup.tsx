@@ -75,7 +75,8 @@ export default function ProfileSetup() {
   }, [IsOpen]);
 
   useEffect(() => {
-    console.log("Loading Profile");
+    if (!Clerk?.user?.id) return;
+    console.log("Loading profile..");
     setIsLoadingProfile(true);
     if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
       ClerkExists(Clerk.user.id).then((exists) => {

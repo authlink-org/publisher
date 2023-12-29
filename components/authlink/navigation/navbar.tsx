@@ -14,9 +14,26 @@ import {
 } from "@/components/ui/menubar";
 import { Link2Icon } from "lucide-react";
 
+import { useClerk } from "@clerk/nextjs";
+
 import { SelectProject } from "./extra/selectproject";
+import { useEffect } from "react";
+
+import ClerkExists from "@/actions/profile/clerk-exists";
 
 export default function Navbar() {
+  const Clerk = useClerk();
+
+  useEffect(() => {
+    if (!Clerk.user) return;
+
+    ClerkExists(Clerk.user.id).then((Resp) => {
+      if (!Resp) {
+        window.location.href = "/setup";
+      }
+    });
+  }, [Clerk.user]);
+
   return (
     <div className="border-b-2">
       <div className="container mx-auto px-4 m-3">
