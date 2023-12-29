@@ -83,17 +83,12 @@ export default function ProfileSetup() {
 
         GetProfile(
           // @ts-ignore
-          Clerk.user.id,
-          // @ts-ignore
-          Clerk.user.primaryEmailAddress.emailAddress
+          Clerk.user.id
         ).then((Profile) => {
           setProfile(Profile);
         });
       });
-      GetProfile(
-        Clerk.user.id,
-        Clerk.user.primaryEmailAddress.emailAddress
-      ).then((Profile) => {
+      GetProfile(Clerk.user.id).then((Profile) => {
         setProfile(Profile);
         setIsLoadingProfile(false);
         setIsOpen(true);
