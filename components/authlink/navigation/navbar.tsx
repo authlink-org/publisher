@@ -42,7 +42,6 @@ export default function Navbar() {
             <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
               AuthLink
             </h2>
-            <SelectProject />
           </div>
           <div className="flex flex-row mt-1">
             <User />

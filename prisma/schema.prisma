@@ -30,12 +30,13 @@ model Project {
   id String @id @default(uuid())
 
   // metadata
-  title       String
-  description String
-  active      Boolean  @default(true)
-  verified    Boolean  @default(false)
-  createdAt   DateTime @default(now()) @db.Date
-  views       Int      @default(0)
+  title               String
+  description         String
+  active              Boolean  @default(true)
+  verified            Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  views               Int      @default(0)
+  monetization_method String
 
   image_url   String?
   youtube_url String?
@@ -48,7 +49,7 @@ model Project {
 
 model Log {
   id   Int      @id @default(autoincrement())
-  date DateTime @default(now()) @db.Date
+  date DateTime @default(now())
 
   views       Int @default(0)
   generations Int @default(0)

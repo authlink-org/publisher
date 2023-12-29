@@ -2,11 +2,14 @@
 
 import { ProjectValidator } from "../validators";
 
-export default function CreateProject(
+import prisma from "../prisma";
+
+export default async function CreateProject(
   clerk: string,
 
   title: string,
   description: string,
+  monetization_method: string,
   image_url?: string,
   youtube_url?: string
 ) {
@@ -15,6 +18,7 @@ export default function CreateProject(
     description: description,
     image_url: image_url,
     youtube_url: youtube_url,
+    monetization_method: monetization_method,
   });
 
   if (!ValidationResult.success) {
@@ -23,4 +27,20 @@ export default function CreateProject(
       message: ValidationResult.error.issues[0].message,
     };
   }
+
+  await prisma.project.create({
+    data: {
+      title: title,
+      description: description,
+      image_url: image_url,
+      youtube_url: youtube_url,
+      monetization_method: monetization_method,
+      profileClerk: clerk,
+    },
+  });
+
+  return {
+    success: true,
+    message: "Your project has been created.",
+  };
 }

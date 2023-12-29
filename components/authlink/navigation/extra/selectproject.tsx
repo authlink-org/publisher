@@ -35,7 +35,23 @@ const frameworks = [
   },
 ];
 
-export function SelectProject() {
+export function SelectProject({
+  projects,
+}: {
+  projects: Array<{
+    id: string;
+    title: string;
+    description: string;
+    active: boolean;
+    verified: boolean;
+    createdAt: Date;
+    views: number;
+    monetization_method: string;
+    profileClerk: string | null;
+    image_url: string | null;
+    youtube_url: string | null;
+  }>;
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -78,12 +94,6 @@ export function SelectProject() {
               </CommandItem>
             ))}
             <CommandSeparator />
-            <CommandItem>
-              Create a new project
-              <CommandShortcut>
-                <PlusIcon className="w-4 h-4" />
-              </CommandShortcut>
-            </CommandItem>
           </CommandGroup>
         </Command>
       </PopoverContent>

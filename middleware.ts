@@ -8,11 +8,7 @@ import CreateProfile from "./actions/profile/create-profile";
 
 import { generateFromEmail } from "unique-username-generator";
 
-export default authMiddleware({
-  async afterAuth(auth, req, evt) {
-    if (!auth.userId) return redirectToSignIn({ returnBackUrl: req.url });
-  },
-});
+export default authMiddleware({});
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],

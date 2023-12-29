@@ -48,6 +48,10 @@ export const ProjectValidator = z.object({
       /^[A-z|0-9| ]*$/,
       "Title can only contain Spaces and normal characters."
     ),
+  monetization_method: z.enum(["linkvertise", "workink"], {
+    invalid_type_error: "Monetization Method doesn't have the correct type.",
+    required_error: "Monetization Method must be set.",
+  }),
   description: z
     .string({
       invalid_type_error: "Description must be a string.",
@@ -55,10 +59,12 @@ export const ProjectValidator = z.object({
     })
     .min(21, "Description must be longer than 20 characters.")
     .max(300, "Description must be 300 or less characters."),
-  active: z.boolean({
-    invalid_type_error: "Active must be a boolean.",
-    required_error: "Active must be set.",
-  }),
+  active: z
+    .boolean({
+      invalid_type_error: "Active must be a boolean.",
+      required_error: "Active must be set.",
+    })
+    .optional(),
   image_url: z
     .string({
       invalid_type_error: "Image URL must be a string.",

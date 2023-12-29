@@ -3,40 +3,65 @@
 import { Button } from "@/components/ui/button";
 import ProjectCard from "./card";
 
+import CreateProjectButton from "./create-project";
+import { useClerk } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+
+import { GetProjects } from "@/actions/project/get-projects";
+
 export default function Projects() {
+  const Clerk = useClerk();
+  const [Projects, setProjects] = useState<
+    Array<{
+      id: string;
+      title: string;
+      description: string;
+      active: boolean;
+      verified: boolean;
+      createdAt: Date;
+      views: number;
+      monetization_method: string;
+      profileClerk: string | null;
+      image_url: string | null;
+      youtube_url: string | null;
+    }>
+  >([]);
+
+  function RefreshProjects() {
+    if (!Clerk?.user?.id) return;
+
+    GetProjects(Clerk.user.id).then((Data) => {
+      setProjects(Data);
+    });
+  }
+
+  useEffect(RefreshProjects, [Clerk.user]);
+
   return (
     <>
       <div>
         <div className="container mx-auto flex justify-between mt-8 mb-8">
-          <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight">
-            Projects
+          <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight mt-2">
+            <a href="/" className="hover:underline underline-offset-8">
+              Projects
+            </a>
           </h1>
-          <Button>Create a new project</Button>
+          <CreateProjectButton refresh={RefreshProjects} />
         </div>
-        <div
-          className="
-            container
-            mx-auto
-            px-4
-            m-3
-            grid
-            grid-rows-6
-            sm:grid-rows-6
-            md:grid-rows-3
-            lg:grid-rows-2
-            gap-4
-            grid-flow-col
-            grid-flow-row
-            place-content-cente
-            flex
-            justify-center"
-        >
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+        <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 overflow-y-auto p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-3">
+          {Projects.map((Project) => {
+            return (
+              <ProjectCard
+                title={Project.title}
+                description={Project.description}
+                id={Project.id}
+                views={Project.views}
+                method={Project.monetization_method}
+                active={Project.active}
+                createdAt={Project.createdAt}
+              />
+            );
+          })}
         </div>
       </div>
     </>
