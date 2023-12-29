@@ -49,19 +49,36 @@ export default function Projects() {
           <CreateProjectButton refresh={RefreshProjects} />
         </div>
         <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 overflow-y-auto p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-3">
-          {Projects.map((Project) => {
-            return (
-              <ProjectCard
-                title={Project.title}
-                description={Project.description}
-                id={Project.id}
-                views={Project.views}
-                method={Project.monetization_method}
-                active={Project.active}
-                createdAt={Project.createdAt}
-              />
-            );
-          })}
+          {(Projects.length > 0 &&
+            Projects.map((Project, x) => {
+              return (
+                <ProjectCard
+                  key={Project.id}
+                  title={Project.title}
+                  description={Project.description}
+                  id={Project.id}
+                  views={Project.views}
+                  method={Project.monetization_method}
+                  active={Project.active}
+                  createdAt={Project.createdAt}
+                />
+              );
+            })) ||
+            [0, 0, 0, 0].map((x, idx) => {
+              return (
+                <ProjectCard
+                  key={idx}
+                  title=""
+                  description=""
+                  id=""
+                  views={0}
+                  method=""
+                  active={false}
+                  createdAt={new Date()}
+                  loading
+                />
+              );
+            })}
         </div>
       </div>
     </>
