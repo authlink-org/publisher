@@ -93,10 +93,7 @@ export default function UpdateProfileButton() {
             setIsLoadingProfile(true);
             if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
               console.log(Clerk.user.id);
-              GetProfile(
-                Clerk.user.id,
-                Clerk.user.primaryEmailAddress.emailAddress
-              ).then((Profile) => {
+              GetProfile(Clerk.user.id).then((Profile) => {
                 setProfile(Profile);
                 setIsLoadingProfile(false);
                 setIsOpen(true);
@@ -222,7 +219,12 @@ export default function UpdateProfileButton() {
                   if (Result.success) {
                     setIsOpen(false);
                     setShowingAPIKeys(false);
-                    toast(Result.message);
+                    toast(Result.message, {
+                      action: {
+                        label: "Okay",
+                        onClick: () => {},
+                      },
+                    });
                   }
                 }
               }

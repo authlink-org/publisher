@@ -9,7 +9,6 @@ export default async function CreateProfile(clerk: string) {
     data: {
       clerk: clerk,
       username: generateUsername(),
-      views: 0,
     },
   });
 }

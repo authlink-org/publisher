@@ -6,7 +6,7 @@ export const ProfileValidator = z.object({
       required_error: "Username must be set.",
       invalid_type_error: "Username must be a string.",
     })
-    .min(3, "Username must be longer than 3 characters.")
+    .min(3, "Username must be longer than 2 characters.")
     .max(24, "Username must be 24 or less characters.")
     .regex(
       /^[A-z|0-9]*$/,
@@ -33,5 +33,53 @@ export const ProfileValidator = z.object({
     })
     .min(0)
     .uuid("Work.Ink API must be a UUID.")
+    .optional(),
+});
+
+export const ProjectValidator = z.object({
+  title: z
+    .string({
+      invalid_type_error: "Title must be a string.",
+      required_error: "Title must be set.",
+    })
+    .min(3, "Title must be longer than 3 characters.")
+    .max(24, "Title must be 24 or less characters.")
+    .regex(
+      /^[A-z|0-9| ]*$/,
+      "Title can only contain Spaces and normal characters."
+    ),
+  description: z
+    .string({
+      invalid_type_error: "Description must be a string.",
+      required_error: "Description must be set.",
+    })
+    .min(21, "Description must be longer than 20 characters.")
+    .max(300, "Description must be 300 or less characters."),
+  active: z.boolean({
+    invalid_type_error: "Active must be a boolean.",
+    required_error: "Active must be set.",
+  }),
+  image_url: z
+    .string({
+      invalid_type_error: "Image URL must be a string.",
+      required_error: "Image URL must be set.",
+    })
+    .url("Image URL must be a valid URL.")
+    .includes("i.imgur.com", {
+      message: "Image URL must be an Imgur.com link.",
+    })
+    .startsWith("https://", "Image URL must start with https.")
+    .endsWith(".png", "Image URL must end with a png.")
+    .optional(),
+  youtube_url: z
+    .string({
+      invalid_type_error: "Youtube URL must be a string.",
+      required_error: "Youtube URL must be set.",
+    })
+    .url("Youtube URL must be a valid URL.")
+    .includes("www.youtube.com", {
+      message: "Youtube URL must be a Youtube URL.",
+    })
+    .startsWith("https://", "Youtube URL must start with https.")
     .optional(),
 });
