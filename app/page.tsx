@@ -13,10 +13,13 @@ import Navbar from "@/components/authlink/navigation/navbar";
 import UpdateProfileDialog from "@/components/authlink/dialogs/update-profile";
 import SignOutButton from "@/components/authlink/dialogs/sign-out";
 
+import Projects from "@/components/authlink/project/projects";
 export default async function Home() {
   return (
     <>
       <Navbar />
+
+      <Projects />
     </>
   );
 }
