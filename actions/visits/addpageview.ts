@@ -1,18 +1,17 @@
 "use server";
 
 import prisma from "../prisma";
-import geoip from "geoip-country";
+
+import geoip from "geoip-lite";
 
 import { headers } from "next/headers";
 
 const Day = 24 * 1000 * 60 * 60;
 
 export default async function AddPageView(project: string) {
-  const Ip = headers().get("x-forwarded-for") || "127.0.0.1";
-  console.log(Ip);
+  const Ip = headers().get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
 
-  //const Geo = geoip.lookup(Ip);
-  const Geo = { country: "PL" };
+  const Geo = geoip.lookup(Ip);
 
   if (!Geo) {
     console.log("Geo doesnt exist");

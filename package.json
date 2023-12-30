@@ -31,6 +31,7 @@
     "cmdk": "^0.2.0",
     "country-flag-icons": "^1.5.9",
     "geoip-country": "^4.2.55",
+    "geoip-lite": "^1.4.9",
     "geopattern": "^1.2.3",
     "i": "^0.3.7",
     "lucide-react": "^0.302.0",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",
     "@types/geoip-country": "^4.0.2",
+    "@types/geoip-lite": "^1.4.4",
     "@types/geopattern": "^1.2.9",
     "@types/jest": "^29.5.11",
     "@types/node": "^20",
