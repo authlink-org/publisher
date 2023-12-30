@@ -7,8 +7,6 @@ ip3country.init();
 
 import { headers } from "next/headers";
 
-const Day = 24 * 1000 * 60 * 60;
-
 export default async function AddPageView(project: string) {
   const Ip = headers().get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
 
@@ -27,8 +25,8 @@ export default async function AddPageView(project: string) {
 
   if (User) {
     console.log("User exists");
-    if (User.date.getTime() > new Date().getTime() - Day) {
-      console.log("User visited >24 hours ago");
+    if (User.date.toDateString() !== new Date().toDateString()) {
+      console.log("User visited 1 day or more ago");
       await prisma.userVisit.update({
         where: {
           ip: Ip,
