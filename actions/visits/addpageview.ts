@@ -2,7 +2,8 @@
 
 import prisma from "../prisma";
 
-import geoip from "geoip-lite";
+import ip3country from "ip3country";
+ip3country.init();
 
 import { headers } from "next/headers";
 
@@ -11,7 +12,7 @@ const Day = 24 * 1000 * 60 * 60;
 export default async function AddPageView(project: string) {
   const Ip = headers().get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
 
-  const Geo = geoip.lookup(Ip);
+  const Geo = ip3country.lookupStr(Ip);
 
   if (!Geo) {
     console.log("Geo doesnt exist");
