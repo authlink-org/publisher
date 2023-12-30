@@ -1,4 +1,8 @@
-import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
+import {
+  authMiddleware,
+  redirectToSignIn,
+  withClerkMiddleware,
+} from "@clerk/nextjs";
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -10,9 +14,11 @@ import { generateFromEmail } from "unique-username-generator";
 
 import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 
+import requestIp from "request-ip";
+
 export default authMiddleware({
   beforeAuth: (req, evt) => {
-    console.log(req.geo);
+    console.log(requestIp.getClientIp(req));
   },
 });
 
