@@ -17,9 +17,7 @@ import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
 import requestIp from "request-ip";
 
 export default authMiddleware({
-  beforeAuth: (req, evt) => {
-    console.log(req.ip, req.geo);
-  },
+  beforeAuth: (req, evt) => {},
 });
 
 export const config = {

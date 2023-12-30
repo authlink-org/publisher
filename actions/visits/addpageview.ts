@@ -11,7 +11,8 @@ export default async function AddPageView(project: string) {
   const Ip = headers().get("x-forwarded-for") || "127.0.0.1";
   console.log(Ip);
 
-  const Geo = geoip.lookup(Ip);
+  //const Geo = geoip.lookup(Ip);
+  const Geo = { country: "PL" };
 
   if (!Geo) {
     console.log("Geo doesnt exist");
