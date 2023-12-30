@@ -48,7 +48,7 @@ export default async function AddPageView(project: string) {
   await prisma.userVisit.create({
     data: {
       ip: Ip,
-      country_code: Geo.country,
+      country_code: Geo,
       projectId: project,
     },
   });
