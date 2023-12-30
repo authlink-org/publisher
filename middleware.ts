@@ -18,7 +18,7 @@ import requestIp from "request-ip";
 
 export default authMiddleware({
   beforeAuth: (req, evt) => {
-    console.log(requestIp.getClientIp(req));
+    console.log(req.ip, req.geo);
   },
 });
 
