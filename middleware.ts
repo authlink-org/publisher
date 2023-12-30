@@ -8,7 +8,13 @@ import CreateProfile from "./actions/profile/create-profile";
 
 import { generateFromEmail } from "unique-username-generator";
 
-export default authMiddleware({});
+import { NextRequest, NextFetchEvent, NextResponse } from "next/server";
+
+export default authMiddleware({
+  beforeAuth: (req, evt) => {
+    console.log(req.geo);
+  },
+});
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],

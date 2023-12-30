@@ -31,7 +31,7 @@ export default function User() {
               <AvatarImage src={Clerk.user?.imageUrl} />
               <AvatarFallback>
                 {(Clerk.user?.firstName || "A").charAt(0) +
-                  (Clerk.user?.lastName || "B").charAt(0)}
+                  (Clerk.user?.lastName || "V").charAt(0)}
               </AvatarFallback>
             </Avatar>
           </Button>

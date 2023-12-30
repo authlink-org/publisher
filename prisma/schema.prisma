@@ -22,7 +22,6 @@ model Profile {
   workink_api     String?
 
   projects Project[]
-  logs     Log[]
 }
 
 model Project {
@@ -45,16 +44,28 @@ model Project {
 
   Profile      Profile? @relation(fields: [profileClerk], references: [clerk])
   profileClerk String?
+
+  visits UserVisit[]
+  logs   Log[]
 }
 
 model Log {
   id   Int      @id @default(autoincrement())
-  date DateTime @default(now())
+  date DateTime @default(now()) @db.Date
 
   views       Int @default(0)
   generations Int @default(0)
   skips       Int @default(0)
 
-  Profile      Profile? @relation(fields: [profileClerk], references: [clerk])
-  profileClerk String?
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}
+
+model UserVisit {
+  ip           String   @id @unique
+  date         DateTime @default(now())
+  country_code String
+
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
 }

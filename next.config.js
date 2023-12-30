@@ -5,7 +5,7 @@ const nextConfig = {
   compiler: {
     removeConsole: true,
   },
-  reactStrictMode: true
+  reactStrictMode: true,
 }
 
 const nextConfigDev = {

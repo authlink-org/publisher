@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { GetProjects } from "@/actions/project/get-projects";
 
 export default function Projects() {
+  const [Loading, setLoading] = useState(true);
   const Clerk = useClerk();
   const [Projects, setProjects] = useState<
     Array<{
@@ -32,6 +33,7 @@ export default function Projects() {
 
     GetProjects(Clerk.user.id).then((Data) => {
       setProjects(Data);
+      setLoading(false);
     });
   }
 
@@ -49,7 +51,7 @@ export default function Projects() {
           <CreateProjectButton refresh={RefreshProjects} />
         </div>
         <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 overflow-y-auto p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-3">
-          {(Projects.length > 0 &&
+          {(!Loading &&
             Projects.map((Project, x) => {
               return (
                 <ProjectCard
@@ -64,7 +66,7 @@ export default function Projects() {
                 />
               );
             })) ||
-            [0, 0, 0, 0].map((x, idx) => {
+            [0, 0, 0].map((x, idx) => {
               return (
                 <ProjectCard
                   key={idx}

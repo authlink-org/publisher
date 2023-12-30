@@ -89,7 +89,7 @@ export default function ProjectCard({
     <>
       <Card className="relative  max-w-sm min-w-96 min-h-56 mb-8 ml-4 mr-4 max-w-full">
         <a
-          href={`/projects/${id}`}
+          href={`/view/${id}`}
           className="absolute left-0 top-0 z-0 h-full w-full"
         ></a>
         <CardHeader>

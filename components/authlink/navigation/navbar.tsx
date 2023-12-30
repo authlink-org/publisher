@@ -40,7 +40,7 @@ export default function Navbar() {
         <div className="flex justify-between">
           <div className="flex justify-between mt-1 mr-3">
             <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
-              AuthLink
+              <a href="/">AuthLink</a>
             </h2>
           </div>
           <div className="flex flex-row mt-1">
