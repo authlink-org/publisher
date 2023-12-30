@@ -2,9 +2,6 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
 const nextConfig = {
-  compiler: {
-    removeConsole: true,
-  },
   reactStrictMode: true,
 }
 
