@@ -13,7 +13,7 @@ export default function PageViewButton() {
   return (
     <Button
       onClick={() => {
-        AddPageView(id);
+        AddPageView(String(id));
       }}
     >
       Simulate View
