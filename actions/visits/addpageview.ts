@@ -2,10 +2,14 @@
 
 import prisma from "../prisma";
 
-import ip3country from "ip3country";
-ip3country.init();
+import AddUniqueView from "./adduniqueview";
+
+import IncrementViews from "../logs/increment-views";
 
 export default async function AddPageView(project: string) {
+  AddUniqueView(project);
+  IncrementViews(project);
+
   await prisma.project.update({
     where: {
       id: project,

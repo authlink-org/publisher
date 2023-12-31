@@ -3,7 +3,7 @@
 import prisma from "../prisma";
 
 export default async function GetTopCountry(id: string, max: number = 1) {
-  if (max > 10) {
+  if (max > 25) {
     return;
   }
 

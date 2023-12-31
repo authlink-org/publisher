@@ -114,31 +114,6 @@ export default function CreateProjectButton({
                 id="description"
               />
             </div>
-            <Collapsible>
-              <CollapsibleTrigger asChild>
-                <Button variant={"ghost"}>Thumbnail Options</Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="grid gap-4 py-4">
-                  <div className="grid w-full gap-1.5">
-                    <Label htmlFor="imgur">Imgur URL</Label>
-                    <Input
-                      type="text"
-                      id="imgur"
-                      placeholder="https://i.imgur.com/ABCDEF.png"
-                    />
-                  </div>
-                  <div className="grid w-full gap-1.5">
-                    <Label htmlFor="youtube">YouTube URL</Label>
-                    <Input
-                      type="text"
-                      id="youtube"
-                      placeholder="https://www.youtube.com/watch?v=ABCDEF"
-                    />
-                  </div>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -158,8 +133,6 @@ export default function CreateProjectButton({
                 const Monetization = document.getElementById(
                   "method"
                 ) as HTMLInputElement;
-
-                console.log(Monetization);
 
                 let Imgur = undefined;
                 let YouTube = undefined;

@@ -29,12 +29,14 @@ model Project {
   id String @id @default(uuid())
 
   // metadata
-  title               String
-  description         String
-  active              Boolean  @default(true)
-  verified            Boolean  @default(false)
-  createdAt           DateTime @default(now())
-  views               Int      @default(0)
+  title         String
+  description   String
+  active        Boolean  @default(true)
+  verified      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  views         Int      @default(0)
+  block_adblock Boolean  @default(false)
+
   monetization_method String
 
   image_url   String?
@@ -54,7 +56,7 @@ model Log {
   date DateTime @default(now()) @db.Date
 
   views       Int @default(0)
-  generations Int @default(0)
+  validations Int @default(0)
   skips       Int @default(0)
 
   Project   Project? @relation(fields: [projectId], references: [id])
@@ -62,7 +64,9 @@ model Log {
 }
 
 model UserVisit {
-  ip           String   @id @unique
+  id Int @id @default(autoincrement())
+
+  ip           String
   date         DateTime @default(now())
   country_code String
 

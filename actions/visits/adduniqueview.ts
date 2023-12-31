@@ -12,39 +12,39 @@ export default async function AddUniqueView(project: string) {
 
   const Geo = ip3country.lookupStr(Ip);
 
-  if (!Geo) {
+  if (!Geo && Ip !== "::1") {
     return;
   }
 
   const User = await prisma.userVisit.findFirst({
     where: {
       ip: Ip,
+      projectId: project,
     },
   });
 
   if (User) {
-    console.log("User exists");
+    const Id = User.id;
     if (User.date.toDateString() !== new Date().toDateString()) {
       await prisma.userVisit.update({
         where: {
+          id: Id,
           ip: Ip,
         },
         data: {
           date: new Date(),
         },
       });
-      console.log("Updated user visit date");
       return;
     }
 
     return;
   }
 
-  console.log("Generating unique user visit");
   await prisma.userVisit.create({
     data: {
       ip: Ip,
-      country_code: Geo,
+      country_code: "PL",
       projectId: project,
     },
   });

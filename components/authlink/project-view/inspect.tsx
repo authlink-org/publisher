@@ -22,18 +22,23 @@ import {
 import numeral from "numeral";
 import { Separator } from "@/components/ui/separator";
 
-function getFlagEmoji(countryCode: string) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char: string) => 127397 + char.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
-}
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { hasFlag } from "country-flag-icons";
 import Image from "next/image";
 
 import GetUniqueViews from "@/actions/visits/unique";
+import {
+  QuestionMarkCircledIcon,
+  QuestionMarkIcon,
+} from "@radix-ui/react-icons";
+
+import EditProjectDialog from "../dialogs/edit-project";
 
 export default function InspectProject() {
   const Clerk = useClerk();
@@ -132,28 +137,40 @@ export default function InspectProject() {
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5 hidden lg:block">
             <nav className="flex space-x-2 ml-8 lg:flex-col lg:space-x-0 lg:space-y-4">
-              <a href="#" className="w-full hover:underline underline-offset-4">
+              <a
+                href={`/view/${id}`}
+                className="w-full hover:underline underline-offset-4"
+              >
                 Overview
               </a>
               <a
-                href="#"
+                href={`/view/${id}/analytics`}
                 className="w-full hover:underline underline-offset-4 text-left"
               >
                 Analytics
               </a>
               <Separator />
-              <a
-                href="#"
-                className="w-full hover:underline underline-offset-4 text-left"
-              >
-                Monetization
-              </a>
+              <EditProjectDialog />
             </nav>
           </aside>
           <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-2">
             <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
               <CardHeader>
-                <CardTitle className="text-md">Views</CardTitle>
+                <CardTitle className="text-md">
+                  <span className="flex justify-between">
+                    <p>Views</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <QuestionMarkCircledIcon className="w-4 h-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          The amount of times your project has been viewed.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </span>
+                </CardTitle>
                 <CardDescription>All time.</CardDescription>
               </CardHeader>
               <CardContent>
@@ -164,8 +181,23 @@ export default function InspectProject() {
             </Card>
             <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
               <CardHeader>
-                <CardTitle className="text-md">Unique Views</CardTitle>
-                <CardDescription>Last 30 days.</CardDescription>
+                <CardTitle className="text-md">
+                  <span className="flex justify-between">
+                    <p>Unique Views</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <QuestionMarkCircledIcon className="w-4 h-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          The amount of times your project has attracted new
+                          users.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </span>
+                </CardTitle>
+                <CardDescription>All Time.</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-2xl">
@@ -173,10 +205,25 @@ export default function InspectProject() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
+            <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full col-span-2">
               <CardHeader>
-                <CardTitle className="text-md">Top Country</CardTitle>
-                <CardDescription>Last 30 days.</CardDescription>
+                <CardTitle className="text-md">
+                  {" "}
+                  <span className="flex justify-between">
+                    <p>Top Country</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <QuestionMarkCircledIcon className="w-4 h-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          The country where most of your users live in.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </span>
+                </CardTitle>
+                <CardDescription>All time.</CardDescription>
               </CardHeader>
               <CardContent>
                 {(((TopCountries && TopCountries.length) || 0) > 0 && (
@@ -222,17 +269,6 @@ export default function InspectProject() {
                     </div>
                   </>
                 )) || <>US</>} */}
-              </CardContent>
-            </Card>
-            <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
-              <CardHeader>
-                <CardTitle className="text-md">Validations</CardTitle>
-                <CardDescription>Last 30 days.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl">
-                  {numeral(Project?.views || 0).format("0,0")}
-                </p>
               </CardContent>
             </Card>
           </div>
