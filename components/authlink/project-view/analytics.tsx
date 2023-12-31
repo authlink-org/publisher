@@ -191,7 +191,11 @@ export default function InspectAnalytics() {
               )}
             </nav>
           </aside>
-          {(!Logs && <h1>Your logs are still being prepared.</h1>) || (
+          {((!Logs || Logs.length === 0) && (
+            <h1>
+              Your analytics are still being prepared, check back in 10 minutes.
+            </h1>
+          )) || (
             <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-2">
               <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
                 <CardHeader>
