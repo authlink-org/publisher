@@ -16,8 +16,8 @@ export default async function GetLogs(project: string) {
     where: {
       projectId: project,
       Project: {
-        profileClerk: userId
-      }
+        profileClerk: userId,
+      },
       date: {
         lte: Today,
         gte: WeekAgo,
