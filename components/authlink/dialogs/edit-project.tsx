@@ -64,35 +64,10 @@ export default function EditProjectDialog({
   youtube_url: string | null;
   profileClerk: string | null;
 }) {
-  if (!id) {
-    return <Button disabled>Edit project</Button>;
-  }
-
-  const [IsOpen, setIsOpen] = useState(false);
-  const [IsLoadingProfile, setIsLoadingProfile] = useState(false);
-  const [IsUpdating, setIsUpdating] = useState(false);
-
   return (
-    <Dialog
-      open={IsOpen}
-      onOpenChange={(state) => {
-        if (state === false) {
-          setIsOpen(false);
-        }
-      }}
-    >
+    <Dialog>
       <DialogTrigger asChild>
-        <Button
-          disabled={IsLoadingProfile}
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        >
-          {IsLoadingProfile && (
-            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-          )}
-          Edit Project
-        </Button>
+        <Button>Edit Project</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -142,10 +117,7 @@ export default function EditProjectDialog({
               Cancel
             </Button>
           </DialogClose>
-          <Button onClick={async () => {}} type="submit" disabled={IsUpdating}>
-            {IsUpdating && (
-              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-            )}
+          <Button onClick={async () => {}} type="submit">
             Save Changes
           </Button>
         </DialogFooter>

@@ -54,6 +54,7 @@ export default function InspectProject() {
     verified: boolean;
     createdAt: Date;
     views: number;
+    block_adblock: boolean;
     monetization_method: string;
     image_url: string | null;
     youtube_url: string | null;
@@ -66,6 +67,7 @@ export default function InspectProject() {
     verified: false,
     createdAt: new Date(),
     views: 0,
+    block_adblock: false,
     monetization_method: "",
     image_url: "",
     youtube_url: "",
@@ -150,7 +152,21 @@ export default function InspectProject() {
                 Analytics
               </a>
               <Separator />
-              <EditProjectDialog />
+              <EditProjectDialog
+                key={Project?.id}
+                id={Project?.id || ""}
+                title={Project?.title || ""}
+                description={Project?.description || ""}
+                active={Project?.active || false}
+                verified={Project?.verified || false}
+                createdAt={Project?.createdAt || new Date()}
+                views={Project?.views || 0}
+                block_adblock={Project?.block_adblock || false}
+                monetization_method={Project?.monetization_method || ""}
+                image_url={Project?.image_url || ""}
+                youtube_url={Project?.youtube_url || ""}
+                profileClerk={Project?.profileClerk || ""}
+              />
             </nav>
           </aside>
           <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-2">
