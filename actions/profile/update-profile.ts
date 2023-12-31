@@ -8,6 +8,8 @@ import ClerkExists from "./clerk-exists";
 
 import { ProfileValidator } from "../validators";
 
+import { auth } from "@clerk/nextjs";
+
 export default async function UpdateProfile(
   clerk: string,
   // new values
@@ -16,8 +18,10 @@ export default async function UpdateProfile(
   linkvertise_api?: string,
   workink_api?: string
 ) {
+  const { userId } = await auth();
+  if (!userId) return;
   console.log("Updating profile.");
-  const Taken = await IsNameTaken(clerk, username);
+  const Taken = await IsNameTaken(userId, username);
   if (Taken) {
     return { success: false, message: "Username is already taken." };
   }
@@ -33,7 +37,7 @@ export default async function UpdateProfile(
     await prisma.profile
       .update({
         where: {
-          clerk: clerk,
+          clerk: userId,
         },
         data: {
           username: username,

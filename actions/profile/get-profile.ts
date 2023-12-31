@@ -6,16 +6,19 @@ import prisma from "../prisma";
 import ClerkExists from "./clerk-exists";
 import CreateProfile from "./create-profile";
 
-export default async function GetProfile(clerk: string) {
-  IsUserValid(clerk);
+import { auth } from "@clerk/nextjs";
 
-  const Exists = await ClerkExists(clerk);
+export default async function GetProfile(clerk: string) {
+  const { userId } = auth();
+  if (!userId) return;
+
+  const Exists = await ClerkExists(userId);
   if (!Exists) {
     await CreateProfile(clerk);
   }
   return await prisma.profile.findFirst({
     where: {
-      clerk: clerk,
+      clerk: userId,
     },
   });
 }

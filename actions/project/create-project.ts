@@ -4,6 +4,8 @@ import { ProjectValidator } from "../validators";
 
 import prisma from "../prisma";
 
+import { auth } from "@clerk/nextjs";
+
 export default async function CreateProject(
   clerk: string,
 
@@ -13,6 +15,9 @@ export default async function CreateProject(
   image_url?: string,
   youtube_url?: string
 ) {
+  const { userId } = await auth();
+  if (!userId) return;
+
   const ValidationResult = ProjectValidator.safeParse({
     title: title,
     description: description,
@@ -35,7 +40,7 @@ export default async function CreateProject(
       image_url: image_url,
       youtube_url: youtube_url,
       monetization_method: monetization_method,
-      profileClerk: clerk,
+      profileClerk: userId,
     },
   });
 
