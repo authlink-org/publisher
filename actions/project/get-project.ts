@@ -3,7 +3,7 @@
 import prisma from "../prisma";
 import { auth } from "@clerk/nextjs";
 
-export async function GetProject(clerk: string, id: string) {
+export async function GetProject(id: string) {
   const { userId } = await auth();
   if (!userId) return;
 

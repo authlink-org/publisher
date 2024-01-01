@@ -83,7 +83,7 @@ export default function ProfileSetup() {
     console.log("Loading profile..");
     setIsLoadingProfile(true);
     if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
-      ClerkExists(Clerk.user.id).then((exists) => {
+      ClerkExists().then((exists) => {
         if (exists) return (window.location.href = "/");
 
         GetProfile(
@@ -93,7 +93,7 @@ export default function ProfileSetup() {
           setProfile(Profile);
         });
       });
-      GetProfile(Clerk.user.id).then((Profile) => {
+      GetProfile().then((Profile) => {
         setProfile(Profile);
         setIsLoadingProfile(false);
         setIsOpen(true);
@@ -225,7 +225,6 @@ export default function ProfileSetup() {
                 const Result:
                   | { success: boolean; message: string }
                   | undefined = await UpdateProfile(
-                  Clerk.user.id,
                   Username,
                   AboutMe,
                   Linkvertise,

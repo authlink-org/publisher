@@ -7,8 +7,6 @@ import prisma from "../prisma";
 import { auth } from "@clerk/nextjs";
 
 export default async function CreateProject(
-  clerk: string,
-
   title: string,
   description: string,
   monetization_method: string,

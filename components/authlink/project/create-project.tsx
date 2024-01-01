@@ -49,10 +49,9 @@ export default function CreateProjectButton({
 }) {
   const [Open, setOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const [Response, setResponse] = useState<{
-    success: boolean;
-    message: string;
-  }>({ success: true, message: "" });
+  const [Response, setResponse] = useState<
+    { success: boolean; message: string } | undefined
+  >({ success: true, message: "" });
 
   useEffect(() => {
     setResponse({ success: true, message: "" });
@@ -73,11 +72,11 @@ export default function CreateProjectButton({
             <DialogDescription>Create a new project</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {!Response.success && (
+            {!Response?.success && (
               <Alert variant="destructive">
                 <ShieldXIcon className="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{Response.message}</AlertDescription>
+                <AlertDescription>{Response?.message}</AlertDescription>
               </Alert>
             )}
             <div className="grid w-full gap-1.5">
@@ -162,7 +161,6 @@ export default function CreateProjectButton({
                 setLoading(true);
 
                 CreateProject(
-                  Clerk.user.id,
                   Title.value,
                   Description.value,
                   Monetization.innerHTML,
@@ -170,7 +168,7 @@ export default function CreateProjectButton({
                   YouTube
                 ).then((Resp) => {
                   setLoading(false);
-                  if (!Resp.success) {
+                  if (!Resp?.success) {
                     setResponse(Resp);
                     return;
                   }

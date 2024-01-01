@@ -74,7 +74,7 @@ export default function InspectProject() {
     profileClerk: "",
   });
 
-  const [UniqueViews, setUniqueViews] = useState(0);
+  const [UniqueViews, setUniqueViews] = useState<number | undefined>(0);
 
   let [TopCountries, setTopCountries] = useState<
     | Array<{
@@ -92,7 +92,7 @@ export default function InspectProject() {
     if (!Clerk?.user?.id) return;
     if (!id) return;
 
-    GetProject(Clerk.user.id, String(id)).then((Project) => {
+    GetProject(String(id)).then((Project) => {
       if (!Project?.title) return (window.location.href = "/");
       setProject(Project);
       GetUniqueViews(String(id)).then((Views) => {

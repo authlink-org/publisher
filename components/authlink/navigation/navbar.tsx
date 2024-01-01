@@ -27,7 +27,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!Clerk.user) return;
 
-    ClerkExists(Clerk.user.id).then((Resp) => {
+    ClerkExists().then((Resp) => {
       if (!Resp) {
         window.location.href = "/setup";
       }

@@ -64,7 +64,7 @@ export default function DeleteProjectButton({
               disabled={Loading}
               onClick={() => {
                 setLoading(true);
-                DeleteProject(clerk, id).then(() => {
+                DeleteProject(id).then(() => {
                   Router.push("/");
                 });
               }}

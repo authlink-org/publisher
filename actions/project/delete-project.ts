@@ -4,14 +4,14 @@ import prisma from "../prisma";
 
 import { auth } from "@clerk/nextjs";
 
-export default async function DeleteProject(clerk: string, id: string) {
+export default async function DeleteProject(id: string) {
   const { userId } = await auth();
   if (!userId) return;
 
   await prisma.project.delete({
     where: {
       id: id,
-      profileClerk: clerk,
+      profileClerk: userId,
     },
   });
 

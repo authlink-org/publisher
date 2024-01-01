@@ -2,10 +2,15 @@
 
 import prisma from "../prisma";
 
-export default async function ClerkExists(clerk: string) {
+import { auth } from "@clerk/nextjs";
+
+export default async function ClerkExists() {
+  const { userId } = await auth();
+  if (!userId) return;
+
   const Profile = await prisma.profile.findFirst({
     where: {
-      clerk: clerk,
+      clerk: userId,
     },
   });
 

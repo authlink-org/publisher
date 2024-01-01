@@ -41,15 +41,19 @@ export default function UpdateProfileDialog() {
   const [IsUpdating, setIsUpdating] = useState(false);
   const [ShowingAPIKeys, setShowingAPIKeys] = useState(false);
   const [Response, setResponse] = useState({ success: true, message: "" });
-  const [Profile, setProfile] = useState<{
-    id: string;
-    clerk: string;
-    username: string;
-    aboutme: string | null;
-    views: number;
-    linkvertise_api: string | null;
-    workink_api: string | null;
-  } | null>({
+  const [Profile, setProfile] = useState<
+    | {
+        id: string;
+        clerk: string;
+        username: string;
+        aboutme: string | null;
+        views: number;
+        linkvertise_api: string | null;
+        workink_api: string | null;
+      }
+    | null
+    | undefined
+  >({
     id: "",
     clerk: "",
     username: "",
@@ -62,7 +66,7 @@ export default function UpdateProfileDialog() {
 
   useEffect(() => {
     if (Clerk?.client?.id && Clerk?.user?.primaryEmailAddress) {
-      GetProfile(Clerk.client.id).then((Profile) => {
+      GetProfile().then((Profile) => {
         setProfile(Profile);
       });
     }
@@ -90,7 +94,7 @@ export default function UpdateProfileDialog() {
             } else {
               setIsLoadingProfile(true);
               if (Clerk?.client?.id && Clerk?.user?.primaryEmailAddress) {
-                GetProfile(Clerk.client.id).then((Profile) => {
+                GetProfile().then((Profile) => {
                   setProfile(Profile);
                   setIsLoadingProfile(false);
                   setIsOpen(true);
@@ -205,7 +209,6 @@ export default function UpdateProfileDialog() {
                 const Result:
                   | { success: boolean; message: string }
                   | undefined = await UpdateProfile(
-                  Clerk.client.id,
                   Username,
                   AboutMe,
                   Linkvertise,

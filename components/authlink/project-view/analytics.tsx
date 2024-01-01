@@ -112,7 +112,7 @@ export default function InspectAnalytics() {
     if (!Clerk?.user?.id) return;
     if (!id) return;
 
-    GetProject(Clerk.user.id, String(id)).then((Project) => {
+    GetProject(String(id)).then((Project) => {
       if (!Project?.title) return (window.location.href = "/");
       setProject(Project);
       GetTopCountry(String(id), 25).then((Res) => {

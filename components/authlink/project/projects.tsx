@@ -13,25 +13,27 @@ export default function Projects() {
   const [Loading, setLoading] = useState(true);
   const Clerk = useClerk();
   const [Projects, setProjects] = useState<
-    Array<{
-      id: string;
-      title: string;
-      description: string;
-      active: boolean;
-      verified: boolean;
-      createdAt: Date;
-      views: number;
-      monetization_method: string;
-      profileClerk: string | null;
-      image_url: string | null;
-      youtube_url: string | null;
-    }>
+    | {
+        id: string;
+        title: string;
+        description: string;
+        active: boolean;
+        verified: boolean;
+        createdAt: Date;
+        views: number;
+        block_adblock: boolean;
+        monetization_method: string;
+        image_url: string | null;
+        youtube_url: string | null;
+        profileClerk: string | null;
+      }[]
+    | undefined
   >([]);
 
   function RefreshProjects() {
     if (!Clerk?.user?.id) return;
 
-    GetProjects(Clerk.user.id).then((Data) => {
+    GetProjects().then((Data) => {
       setProjects(Data);
       setLoading(false);
     });
@@ -52,7 +54,7 @@ export default function Projects() {
         </div>
         <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 overflow-y-auto p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-3">
           {(!Loading &&
-            Projects.map((Project, x) => {
+            Projects?.map((Project, x) => {
               return (
                 <ProjectCard
                   key={Project.id}

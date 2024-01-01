@@ -11,7 +11,6 @@ import { ProfileValidator } from "../validators";
 import { auth } from "@clerk/nextjs";
 
 export default async function UpdateProfile(
-  clerk: string,
   // new values
   username: string,
   aboutme?: string,

@@ -6,7 +6,7 @@ import { generateUsername } from "unique-username-generator";
 
 import { auth } from "@clerk/nextjs";
 
-export default async function CreateProfile(clerk: string) {
+export default async function CreateProfile() {
   const { userId } = await auth();
   if (!userId) return;
 

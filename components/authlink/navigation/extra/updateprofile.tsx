@@ -41,15 +41,19 @@ export default function UpdateProfileButton() {
   const [IsUpdating, setIsUpdating] = useState(false);
   const [ShowingAPIKeys, setShowingAPIKeys] = useState(false);
   const [Response, setResponse] = useState({ success: true, message: "" });
-  const [Profile, setProfile] = useState<{
-    id: string;
-    clerk: string;
-    username: string;
-    aboutme: string | null;
-    views: number;
-    linkvertise_api: string | null;
-    workink_api: string | null;
-  } | null>({
+  const [Profile, setProfile] = useState<
+    | {
+        id: string;
+        clerk: string;
+        username: string;
+        aboutme: string | null;
+        views: number;
+        linkvertise_api: string | null;
+        workink_api: string | null;
+      }
+    | null
+    | undefined
+  >({
     id: "",
     clerk: "",
     username: "",
@@ -93,7 +97,7 @@ export default function UpdateProfileButton() {
             setIsLoadingProfile(true);
             if (Clerk?.user?.id && Clerk?.user?.primaryEmailAddress) {
               console.log(Clerk.user.id);
-              GetProfile(Clerk.user.id).then((Profile) => {
+              GetProfile().then((Profile) => {
                 setProfile(Profile);
                 setIsLoadingProfile(false);
                 setIsOpen(true);
@@ -207,7 +211,6 @@ export default function UpdateProfileButton() {
                 const Result:
                   | { success: boolean; message: string }
                   | undefined = await UpdateProfile(
-                  Clerk.user.id,
                   Username,
                   AboutMe,
                   Linkvertise,
