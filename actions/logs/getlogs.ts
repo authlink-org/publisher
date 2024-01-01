@@ -25,7 +25,7 @@ export default async function GetLogs(project: string) {
     },
     by: ["views", "validations", "skips", "date"],
     orderBy: {
-      date: "desc",
+      date: "asc",
     },
   });
 
