@@ -20,6 +20,7 @@ import { SelectProject } from "./extra/selectproject";
 import { useEffect } from "react";
 
 import ClerkExists from "@/actions/profile/clerk-exists";
+import Image from "next/image";
 
 export default function Navbar() {
   const Clerk = useClerk();
@@ -40,7 +41,15 @@ export default function Navbar() {
         <div className="flex justify-between">
           <div className="flex justify-between mt-1 mr-3">
             <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
-              <a href="/">AuthLink</a>
+              {/* <a href="/">AuthLink</a> */}
+              <a href="/">
+                <Image
+                  src="/authlink-logo-full.svg"
+                  width={"150"}
+                  height={"0"}
+                  alt="AuthLink Logo"
+                />
+              </a>
             </h2>
           </div>
           <div className="flex flex-row mt-1">
