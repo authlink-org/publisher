@@ -51,15 +51,19 @@ export default function ProfileSetup() {
   const [IsUpdating, setIsUpdating] = useState(false);
   const [ShowingAPIKeys, setShowingAPIKeys] = useState(true);
   const [Response, setResponse] = useState({ success: true, message: "" });
-  const [Profile, setProfile] = useState<{
-    id: string;
-    clerk: string;
-    username: string;
-    aboutme: string | null;
-    views: number;
-    linkvertise_api: string | null;
-    workink_api: string | null;
-  } | null>({
+  const [Profile, setProfile] = useState<
+    | {
+        id: string;
+        clerk: string;
+        username: string;
+        aboutme: string | null;
+        views: number;
+        linkvertise_api: string | null;
+        workink_api: string | null;
+      }
+    | null
+    | undefined
+  >({
     id: "",
     clerk: "",
     username: "",
