@@ -44,7 +44,7 @@ export default async function AddUniqueView(project: string) {
   await prisma.userVisit.create({
     data: {
       ip: Ip,
-      country_code: "PL",
+      country_code: Geo || "PL",
       projectId: project,
     },
   });
