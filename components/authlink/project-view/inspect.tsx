@@ -151,6 +151,12 @@ export default function InspectProject() {
               >
                 Analytics
               </a>
+              <a
+                href={`/view/${id}/licenses`}
+                className="w-full hover:underline underline-offset-4 text-left"
+              >
+                Licenses
+              </a>
               <Separator />
               <EditProjectDialog
                 key={Project?.id}

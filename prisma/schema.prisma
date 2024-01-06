@@ -49,6 +49,9 @@ model Project {
 
   visits UserVisit[]
   logs   Log[]
+
+  allowFreeLicenses Boolean   @default(true)
+  licenses          License[]
 }
 
 model Log {
@@ -69,6 +72,16 @@ model UserVisit {
   ip           String
   date         DateTime @default(now())
   country_code String
+
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}
+
+model License {
+  id     String   @id @default(uuid())
+  auth   String   @default("Not claimed")
+  expire DateTime @default(now())
+  free   Boolean  @default(false)
 
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String?

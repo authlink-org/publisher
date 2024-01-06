@@ -171,6 +171,12 @@ export default function InspectAnalytics() {
               >
                 Analytics
               </a>
+              <a
+                href="./licenses"
+                className="w-full hover:underline underline-offset-4 text-left"
+              >
+                Licenses
+              </a>
               <Separator />
               {Project?.title && (
                 <EditProjectDialog

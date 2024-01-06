@@ -10,6 +10,7 @@ export default async function CreateProject(
   title: string,
   description: string,
   monetization_method: string,
+  allowFreeLicenses: boolean,
   image_url?: string,
   youtube_url?: string
 ) {
@@ -22,6 +23,7 @@ export default async function CreateProject(
     image_url: image_url,
     youtube_url: youtube_url,
     monetization_method: monetization_method,
+    allowFreeLicenses: allowFreeLicenses,
   });
 
   if (!ValidationResult.success) {

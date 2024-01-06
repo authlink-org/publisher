@@ -37,6 +37,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CopyBlock } from "react-code-blocks";
+
+import "highlight.js/styles/vs.css";
+import { useParams } from "next/navigation";
+
 export default function EditProjectDialog({
   id,
   title,
@@ -64,62 +70,111 @@ export default function EditProjectDialog({
   youtube_url: string | null;
   profileClerk: string | null;
 }) {
+  const Params = useParams();
+
+  const Languages = {
+    Lua: `
+shared.auth_link_license = "LICENSE HERE"
+
+-- obfuscate everything else
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/MaHuJa/CC-scripts/master/sha256.lua"))()
+
+local ClientVersion = "v1"
+local API_Endpoint = "https://auth-endpoints-production.up.railway.app/"
+
+function a_error(msg, ...)
+  return warn(("[AuthLink - %s]: %s"):format(ClientVersion, msg:format(...)))
+end
+
+local API_Version = game:HttpGet(API_Endpoint .. "version")
+
+if(API_Version ~= ClientVersion) then
+  a_error("There is a new version available (%s)", API_Version)
+end
+
+local Seed = 0
+for i = 1, 10 do
+  for i = 1, math.random(1, 100) do
+    Seed = Seed + math.random()
+  end
+end
+Seed = tostring(Seed)
+local HashedSeed = sha256(Seed)
+
+local Authenticate = API_Endpoint .. "authenticate?a=%s&b=%s&c=%s"
+
+local AuthURL = Authenticate:format(
+  License,
+  Seed,
+  "${Params.id}"
+)
+
+local Response = game:HttpGet(AuthURL)
+
+local CanDecode, Decoded = pcall(function()
+  return game:GetService("HttpService"):JSONDecode(Response)
+end)
+
+if(not CanDecode) then
+  return a_error("Unable to decode server response.")
+end
+
+if(not Decoded.success) then
+  return a_error("Server responded with an unsuccessful message.")
+end
+
+if(Decoded.validator ~= HashedSeed) then
+  return a_error("Server responded with invalid data.")
+end
+
+local IsPremium = not Decoded.free
+
+warn("Authenticated")
+warn("User is premium?", IsPremium)
+  `,
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Edit Project</Button>
+        <Button>View Loaders</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
-          <DialogDescription>Make changes to your project.</DialogDescription>
+          <DialogTitle>Loaders</DialogTitle>
+          <DialogDescription>These are demo loaders.</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              type="text"
-              id="title"
-              placeholder="Title"
-              defaultValue={title}
-            />
-          </div>
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              placeholder="Tell us something about your project!"
-              defaultValue={description}
-              id="description"
-            />
-          </div>
-          <div className="grid w-full gap-1.5">
-            <Label htmlFor="method">Monetization Method</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue
-                  id="method"
-                  placeholder="Select your monetization provider"
-                  defaultValue={monetization_method}
-                ></SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="linkvertise">linkvertise</SelectItem>
-                  <SelectItem value="workink">workink</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        <Tabs defaultValue="account" className="w-96">
+          <TabsList>
+            <TabsTrigger value="roblox">Roblox</TabsTrigger>
+            <TabsTrigger value="cpp" disabled>
+              C++
+            </TabsTrigger>
+            <TabsTrigger value="cs" disabled>
+              C#
+            </TabsTrigger>
+            <TabsTrigger value="golang" disabled>
+              GoLang
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="roblox">
+            <div className="overflow-auto max-h-96">
+              <CopyBlock
+                text={Languages.Lua}
+                language={"julia"}
+                showLineNumbers={false}
+                codeBlock={true}
+              />
+            </div>
+          </TabsContent>
+        </Tabs>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="submit" variant={"secondary"}>
-              Cancel
+              Close
             </Button>
           </DialogClose>
-          <Button onClick={async () => {}} type="submit">
-            Save Changes
-          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

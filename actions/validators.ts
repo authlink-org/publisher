@@ -34,6 +34,10 @@ export const ProfileValidator = z.object({
     .min(0)
     .uuid("Work.Ink API must be a UUID.")
     .optional(),
+  allowFreeLicenses: z.boolean({
+    invalid_type_error: "Allow Free Licenses must be a boolean",
+    required_error: "Allow Free Licenses must be set.",
+  }),
 });
 
 export const ProjectValidator = z.object({
@@ -88,4 +92,11 @@ export const ProjectValidator = z.object({
     })
     .startsWith("https://", "Youtube URL must start with https.")
     .optional(),
+});
+
+export const LicenseValidator = z.object({
+  date: z.date({
+    invalid_type_error: "Date must be a date.",
+    required_error: "Date must be set",
+  }),
 });

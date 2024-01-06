@@ -41,6 +41,7 @@ import { Loader2Icon, ShieldXIcon, Youtube } from "lucide-react";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function CreateProjectButton({
   refresh,
@@ -113,6 +114,17 @@ export default function CreateProjectButton({
                 id="description"
               />
             </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="freelicenses" />
+              <label
+                htmlFor="freelicenses"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                defaultChecked={true}
+                defaultValue={"true"}
+              >
+                Allow generation of free licenses
+              </label>
+            </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -131,6 +143,9 @@ export default function CreateProjectButton({
                 ) as HTMLInputElement;
                 const Monetization = document.getElementById(
                   "method"
+                ) as HTMLInputElement;
+                const Licenses = document.getElementById(
+                  "freelicenses"
                 ) as HTMLInputElement;
 
                 let Imgur = undefined;
@@ -164,6 +179,7 @@ export default function CreateProjectButton({
                   Title.value,
                   Description.value,
                   Monetization.innerHTML,
+                  Boolean(Licenses.value),
                   Imgur,
                   YouTube
                 ).then((Resp) => {
