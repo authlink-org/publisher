@@ -74,6 +74,8 @@ import DeleteLicense from "@/actions/licenses/deletelicense";
 import { toast } from "sonner";
 import ResetAuth from "@/actions/licenses/resetauth";
 
+import EditLicenseDialog from "../dialogs/edit-license";
+
 export default function InspectLicenses() {
   const Clerk = useClerk();
   const Params = useParams();
@@ -211,7 +213,10 @@ export default function InspectLicenses() {
                 <CardTitle className="text-md">
                   <span className="flex justify-between">
                     <p>Licenses</p>
-                    <CreateLicenseDialog project={Project?.id} />
+                    <div>
+                      <EditLicenseDialog project={Project?.id} />
+                      <CreateLicenseDialog project={Project?.id} />
+                    </div>
                   </span>
                 </CardTitle>
               </CardHeader>

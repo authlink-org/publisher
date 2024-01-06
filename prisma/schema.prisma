@@ -51,6 +51,7 @@ model Project {
   logs   Log[]
 
   allowFreeLicenses Boolean   @default(true)
+  freeLicenseHours  Int       @default(2)
   licenses          License[]
 }
 
