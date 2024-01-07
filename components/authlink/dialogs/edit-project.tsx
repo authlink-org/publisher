@@ -81,7 +81,7 @@ shared.auth_link_license = "LICENSE HERE"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/MaHuJa/CC-scripts/master/sha256.lua"))()
 
 local ClientVersion = "v1"
-local API_Endpoint = "https://auth-endpoints-production.up.railway.app/"
+local API_Endpoint = "https://auth.authlink.org/"
 
 function a_error(msg, ...)
   return warn(("[AuthLink - %s]: %s"):format(ClientVersion, msg:format(...)))
@@ -140,7 +140,7 @@ using System.Text;
 using System.Text.Json;
 
 const string ClientVersion = "v1";
-const string API_Endpoint = "https://auth-endpoints-production.up.railway.app/";
+const string API_Endpoint = "https://auth.authlink.org/";
 const string API_Version = API_Endpoint + "version";
 
 string Get(string uri)
