@@ -133,6 +133,89 @@ local IsPremium = not Decoded.free
 warn("Authenticated")
 warn("User is premium?", IsPremium)
   `,
+    CSharp: `
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+
+const string ClientVersion = "v1";
+const string API_Endpoint = "https://auth-endpoints-production.up.railway.app/";
+const string API_Version = API_Endpoint + "version";
+
+string Get(string uri)
+{
+    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+    request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+    using (Stream stream = response.GetResponseStream())
+    using (StreamReader reader = new StreamReader(stream))
+    {
+        return reader.ReadToEnd();
+    }
+}
+
+string ServerVersion = Get(API_Version);
+
+if(ClientVersion != ServerVersion)
+{
+    Console.WriteLine($"[AuthLink V1]: Running outdated client version. (newes: {ServerVersion})");
+}
+
+Console.WriteLine("AuthLink V1 Demo");
+
+Console.Write("Please input your license key!\\n> ");
+string? LicenseKey = Console.ReadLine();
+
+int Seed = 0;
+for (int i = 0; i < 10; i++)
+{
+    Seed += new Random().Next();
+}
+
+
+Console.WriteLine($"Seed: {Seed}");
+
+SHA256 Hash = SHA256.Create();
+byte[] HashResponse = Hash.ComputeHash(Encoding.ASCII.GetBytes($"{Seed}"));
+string ExpectedResponse = BitConverter.ToString(HashResponse).Replace("-", "").ToLower();
+
+string AuthenticateURL = $"{API_Endpoint}authenticate?a={LicenseKey}&b={Seed}&c=${Params.id}";
+string Response = Get(AuthenticateURL);
+try
+{
+    AuthLinkResponse? Result = JsonSerializer.Deserialize<AuthLinkResponse>(Response);
+
+    if(Result != null && Result.success)
+    {
+        if(Result.validator == ExpectedResponse)
+        {
+            _entry(!Result.free);
+        } else
+        {
+            Console.WriteLine("Validator mismatch");
+        }
+    }
+
+} catch
+{
+    Console.WriteLine("Invalid license");
+}
+
+void _entry(bool isPremium = false)
+{
+    Console.WriteLine("Authenticated");
+    Console.WriteLine($"Is user premium: {isPremium}");
+}
+
+class AuthLinkResponse
+{
+    public bool success { get; set; }
+    public bool free { get; set; }
+    public string validator { get; set; }
+}
+`,
   };
 
   return (
@@ -151,9 +234,7 @@ warn("User is premium?", IsPremium)
             <TabsTrigger value="cpp" disabled>
               C++
             </TabsTrigger>
-            <TabsTrigger value="cs" disabled>
-              C#
-            </TabsTrigger>
+            <TabsTrigger value="cs">C#</TabsTrigger>
             <TabsTrigger value="golang" disabled>
               GoLang
             </TabsTrigger>
@@ -163,6 +244,16 @@ warn("User is premium?", IsPremium)
               <CopyBlock
                 text={Languages.Lua}
                 language={"julia"}
+                showLineNumbers={false}
+                codeBlock={true}
+              />
+            </div>
+          </TabsContent>
+          <TabsContent value="cs">
+            <div className="overflow-auto max-h-96">
+              <CopyBlock
+                text={Languages.CSharp}
+                language={"cs"}
                 showLineNumbers={false}
                 codeBlock={true}
               />
