@@ -75,6 +75,14 @@ import { toast } from "sonner";
 import ResetAuth from "@/actions/licenses/resetauth";
 
 import EditLicenseDialog from "../dialogs/edit-license";
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogContent,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function InspectLicenses() {
   const Clerk = useClerk();
@@ -121,6 +129,7 @@ export default function InspectLicenses() {
   >();
 
   const { id } = Params;
+  const [Keys, setKeys] = useState("");
 
   function RefreshProjects() {
     if (!Clerk?.user?.id) return;
@@ -131,6 +140,13 @@ export default function InspectLicenses() {
       setProject(Project);
       GetLicenses(Project.id).then((Licenses) => {
         setLicenses(Licenses);
+        let Temp = "";
+        Licenses?.map((L) => {
+          if (L.lifetime) {
+            Temp += L.id + "\n";
+          }
+        });
+        setKeys(Temp);
         setLoading(false);
       });
     });
@@ -321,6 +337,17 @@ export default function InspectLicenses() {
                 </ScrollArea>
               </CardContent>
             </Card>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="col-span-2">Export Lifetime Keys</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Export Keys</DialogTitle>
+                </DialogHeader>
+                <Textarea defaultValue={Keys} />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
