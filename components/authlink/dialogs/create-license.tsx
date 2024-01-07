@@ -22,6 +22,7 @@ import CreateLicense from "@/actions/licenses/createlicense";
 import { Loader2Icon, ShieldXIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function CreateLicenseDialog({
   project,
@@ -70,6 +71,17 @@ export default function CreateLicenseDialog({
               <Label htmlFor="description">Expire Date</Label>
               <DatePickerDemo date={date} setDate={setDate} />
             </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="lifetime" />
+              <label
+                htmlFor="lifetime"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                defaultChecked={true}
+                defaultValue={"true"}
+              >
+                Lifetime license
+              </label>
+            </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -81,16 +93,22 @@ export default function CreateLicenseDialog({
                 if (!project || !date) {
                   return;
                 }
-                setLoading(true);
-                CreateLicense(project, date).then((Response) => {
-                  setResponse(Response);
-                  if (!Response?.success) {
-                    return setLoading(false);
-                  }
+                const Lifetime = document.getElementById(
+                  "lifetime"
+                ) as HTMLInputElement;
 
-                  toast(Response.message);
-                  setLoading(false);
-                });
+                setLoading(true);
+                CreateLicense(project, date, Boolean(Lifetime.value)).then(
+                  (Response) => {
+                    setResponse(Response);
+                    if (!Response?.success) {
+                      return setLoading(false);
+                    }
+
+                    toast(Response.message);
+                    setLoading(false);
+                  }
+                );
               }}
             >
               {loading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}

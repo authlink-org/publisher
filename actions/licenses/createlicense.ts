@@ -5,7 +5,11 @@ import { LicenseValidator } from "../validators";
 
 import prisma from "../prisma";
 
-export default async function CreateLicense(project: string, expire: Date) {
+export default async function CreateLicense(
+  project: string,
+  expire: Date,
+  lifetime: boolean
+) {
   const { userId } = auth();
   if (!userId) return;
 
@@ -23,6 +27,7 @@ export default async function CreateLicense(project: string, expire: Date) {
     data: {
       projectId: project,
       expire: expire,
+      lifetime: lifetime,
     },
   });
 
