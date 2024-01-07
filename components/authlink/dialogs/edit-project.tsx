@@ -105,7 +105,7 @@ local HashedSeed = sha256(Seed)
 local Authenticate = API_Endpoint .. "authenticate?a=%s&b=%s&c=%s"
 
 local AuthURL = Authenticate:format(
-  License,
+  shared.auth_link_license,
   Seed,
   "${Params.id}"
 )
