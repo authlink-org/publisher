@@ -195,6 +195,18 @@ export default function InspectAnalytics() {
                   profileClerk={Project.profileClerk}
                 />
               )}
+              <Button
+                variant={"link"}
+                onClick={() => {
+                  window.open(
+                    `https://authlink.org/p/${Project?.id}`,
+                    "_authlink",
+                    "popup,width=600,height=1000"
+                  );
+                }}
+              >
+                View Project
+              </Button>
             </nav>
           </aside>
           {((!Logs || Logs.length === 0) && (

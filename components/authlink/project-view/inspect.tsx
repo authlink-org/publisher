@@ -173,6 +173,18 @@ export default function InspectProject() {
                 youtube_url={Project?.youtube_url || ""}
                 profileClerk={Project?.profileClerk || ""}
               />
+              <Button
+                variant={"link"}
+                onClick={() => {
+                  window.open(
+                    `https://authlink.org/p/${Project?.id}`,
+                    "_authlink",
+                    "popup,width=600,height=1000"
+                  );
+                }}
+              >
+                View Project
+              </Button>
             </nav>
           </aside>
           <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-2">
