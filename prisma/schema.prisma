@@ -50,6 +50,8 @@ model Project {
   visits UserVisit[]
   logs   Log[]
 
+  api_key String? @default(uuid())
+
   allowFreeLicenses Boolean   @default(true)
   freeLicenseHours  Int       @default(2)
   licenses          License[]

@@ -43,6 +43,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import RegenerateAPIKey from "@/actions/api/regenerate";
+
 import {
   Menubar,
   MenubarContent,
@@ -81,14 +83,19 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogContent,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Loader2Icon } from "lucide-react";
 
 export default function InspectLicenses() {
   const Clerk = useClerk();
   const Params = useParams();
 
   const [Loading, setLoading] = useState(true);
+  const [Regenerating, setRegenerating] = useState(false);
 
   const [Project, setProject] = useState<{
     id: string;
@@ -98,6 +105,7 @@ export default function InspectLicenses() {
     verified: boolean;
     createdAt: Date;
     views: number;
+    api_key: string | null;
     block_adblock: boolean;
     monetization_method: string;
     image_url: string | null;
@@ -110,6 +118,7 @@ export default function InspectLicenses() {
     active: false,
     verified: false,
     createdAt: new Date(),
+    api_key: "",
     views: 0,
     block_adblock: false,
     monetization_method: "",
@@ -337,17 +346,79 @@ export default function InspectLicenses() {
                 </ScrollArea>
               </CardContent>
             </Card>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="col-span-2">Export Lifetime Keys</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Export Keys</DialogTitle>
-                </DialogHeader>
-                <Textarea defaultValue={Keys} />
-              </DialogContent>
-            </Dialog>
+            <div className="flex">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="col-span-2 mr-4">
+                    Export lifetime keys
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Export Keys</DialogTitle>
+                  </DialogHeader>
+                  <Textarea defaultValue={Keys} />
+                </DialogContent>
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="col-span-2 mr-4">
+                    Manage automatic payments
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Automatic Payments</DialogTitle>
+                    <DialogDescription>
+                      Automatically handle payments for Sellix
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="url">Automatic Payments Webhook</Label>
+                      <Input
+                        type="text"
+                        id="url"
+                        placeholder="2"
+                        value={`https://payments.authlink.org/sellix/${
+                          Project?.api_key || "REGENERATE-YOUR-API-KEY"
+                        }/webhook`}
+                        readOnly
+                      />
+                    </div>
+                    <div className="grid w-full gap-1.5">
+                      <Label htmlFor="api">Api key</Label>
+                      <Input
+                        type="text"
+                        id="api"
+                        value={Project?.api_key || "REGENERATE-YOUR-API-KEY"}
+                        readOnly
+                      />
+                      <Button
+                        disabled={Regenerating}
+                        onClick={() => {
+                          setRegenerating(true);
+                          RegenerateAPIKey(Project?.id || "INACTIVE").then(
+                            (R) => {
+                              if (R.success && Project) {
+                                Project.api_key = R.api || null;
+                                setProject(Project);
+                                setRegenerating(false);
+                              }
+                            }
+                          );
+                        }}
+                      >
+                        {Regenerating && (
+                          <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Generate
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         </div>
       </div>
