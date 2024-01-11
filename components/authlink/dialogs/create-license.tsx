@@ -98,17 +98,19 @@ export default function CreateLicenseDialog({
                 ) as HTMLInputElement;
 
                 setLoading(true);
-                CreateLicense(project, date, Boolean(Lifetime.value)).then(
-                  (Response) => {
-                    setResponse(Response);
-                    if (!Response?.success) {
-                      return setLoading(false);
-                    }
-
-                    toast(Response.message);
-                    setLoading(false);
+                CreateLicense(
+                  project,
+                  date,
+                  Lifetime.value === "true" ? true : false
+                ).then((Response) => {
+                  setResponse(Response);
+                  if (!Response?.success) {
+                    return setLoading(false);
                   }
-                );
+
+                  toast(Response.message);
+                  setLoading(false);
+                });
               }}
             >
               {loading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}

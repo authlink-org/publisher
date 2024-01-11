@@ -132,6 +132,7 @@ export default function InspectLicenses() {
         auth: string;
         expire: Date;
         free: boolean;
+        lifetime: boolean;
         projectId: string | null;
       }[]
     | undefined
@@ -265,12 +266,12 @@ export default function InspectLicenses() {
                         <TableHead className="w-[100px]">id</TableHead>
                         <TableHead>auth</TableHead>
                         <TableHead className="text-right">expire</TableHead>
-                        <TableHead className="text-right">free</TableHead>
                         <TableHead className="text-right"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {Licenses?.map((License, idx) => {
+                        if (License.free) return;
                         return (
                           <TableRow key={License.id}>
                             <TableCell key={License.id + "0"}>
@@ -283,13 +284,8 @@ export default function InspectLicenses() {
                               className="text-right"
                               key={License.id + "0"}
                             >
-                              {moment(License.expire).calendar()}
-                            </TableCell>
-                            <TableCell
-                              className="text-right"
-                              key={License.id + "0"}
-                            >
-                              {(License.free && "YES") || "NO"}
+                              {(License.lifetime === true && "NEVER") ||
+                                moment(License.expire).calendar()}
                             </TableCell>
                             <TableCell className="flex justify-center">
                               <Menubar className="w-12">
