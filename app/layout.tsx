@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description: "",
 };
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Toaster />
         </body>
+        <Script src="/support.js" />
       </html>
     </ClerkProvider>
   );
