@@ -12,7 +12,12 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Link2Icon } from "lucide-react";
+import {
+  Contact2Icon,
+  ContactIcon,
+  Link2Icon,
+  ShieldAlertIcon,
+} from "lucide-react";
 
 import { useClerk } from "@clerk/nextjs";
 
@@ -21,6 +26,10 @@ import { useEffect } from "react";
 
 import ClerkExists from "@/actions/profile/clerk-exists";
 import Image from "next/image";
+
+import { CrosshairIcon } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Navbar() {
   const Clerk = useClerk();
@@ -36,26 +45,55 @@ export default function Navbar() {
   }, [Clerk.user]);
 
   return (
-    <div className="border-b-2">
-      <div className="container mx-auto px-4 m-3">
-        <div className="flex justify-between">
-          <div className="flex justify-between mt-1 mr-3">
-            <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
-              {/* <a href="/">AuthLink</a> */}
-              <a href="/">
-                <Image
-                  src="/authlink-logo-full.svg"
-                  width={"150"}
-                  height={"0"}
-                  alt="AuthLink Logo"
-                />
-              </a>
-            </h2>
-          </div>
-          <div className="flex flex-row mt-1">
-            <User />
+    <div>
+      <div className="border-b-2">
+        <div className="container mx-auto px-4 m-3">
+          <div className="flex justify-between">
+            <div className="flex justify-between mt-1 mr-3">
+              <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
+                {/* <a href="/">AuthLink</a> */}
+                <a href="/">
+                  <Image
+                    src="/authlink-logo-full.svg"
+                    width={"150"}
+                    height={"0"}
+                    alt="AuthLink Logo"
+                  />
+                </a>
+              </h2>
+            </div>
+            <div className="flex flex-row mt-1">
+              <User />
+            </div>
           </div>
         </div>
+      </div>
+      <div className="mt-10 container mx-auto">
+        <Alert>
+          <Contact2Icon className="h-4 w-4" />
+          <AlertTitle>Telegram and Feature Requests</AlertTitle>
+          <AlertDescription>
+            Join our{" "}
+            <a
+              className="underline underline-offset-4"
+              href="https://t.me/authlink"
+              target="telegram"
+            >
+              Telegram Channel
+            </a>{" "}
+            to recieve update notifications.
+            <br />
+            You can also request new features on our{" "}
+            <a
+              className="underline underline-offset-4"
+              href="https://authlink.canny.io/feature-requests"
+              target="feature-requests"
+            >
+              Community Board
+            </a>
+            .
+          </AlertDescription>
+        </Alert>
       </div>
     </div>
   );
