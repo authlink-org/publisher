@@ -17,6 +17,7 @@ import {
   ContactIcon,
   Link2Icon,
   ShieldAlertIcon,
+  User2Icon,
 } from "lucide-react";
 
 import { useClerk } from "@clerk/nextjs";
@@ -69,6 +70,16 @@ export default function Navbar() {
         </div>
       </div>
       <div className="mt-10 container mx-auto">
+        <Alert>
+          <User2Icon className="h-4 w-4" />
+          <AlertTitle>Account manager contact.</AlertTitle>
+          <AlertDescription>
+            You can contact your account manager on discord by sending a friend
+            request: <b>eax.al</b>.
+          </AlertDescription>
+        </Alert>
+      </div>
+      <div className="mt-2 container mx-auto">
         <Alert>
           <Contact2Icon className="h-4 w-4" />
           <AlertTitle>
