@@ -1,14 +1,1 @@
-(function(d,t) {
-  var BASE_URL="https://support.authlink.org";
-  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src=BASE_URL+"/packs/js/sdk.js";
-  g.defer = true;
-  g.async = true;
-  s.parentNode.insertBefore(g,s);
-  g.onload=function(){
-    window.chatwootSDK.run({
-      websiteToken: '5RZ4fyqo4imM9ayVwgrPFHUX',
-      baseUrl: BASE_URL
-    })
-  }
-})(document,"script");
+window.$crisp=[];window.CRISP_WEBSITE_ID="612755ed-de40-4e1a-9f1c-896583b68763";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
