@@ -90,12 +90,20 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Loader2Icon } from "lucide-react";
 
+import EditNote from "../dialogs/editnote";
+import MetadataViewer from "../dialogs/viewmetadata";
+
 export default function InspectLicenses() {
   const Clerk = useClerk();
   const Params = useParams();
 
   const [Loading, setLoading] = useState(true);
   const [Regenerating, setRegenerating] = useState(false);
+
+  const [useEditNote, setEditNote] = useState(false);
+  const [useLicense, setLicense] = useState("");
+  const [useViewMetadata, setViewMetadata] = useState(false);
+  const [useMetadata, setMetadata] = useState("");
 
   const [Project, setProject] = useState<{
     id: string;
@@ -133,6 +141,8 @@ export default function InspectLicenses() {
         expire: Date;
         free: boolean;
         lifetime: boolean;
+        metadata: string | null;
+        note: string | null;
         projectId: string | null;
       }[]
     | undefined
@@ -259,12 +269,22 @@ export default function InspectLicenses() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="w-full h-64">
+                <EditNote
+                  license={useLicense}
+                  isOpen={useEditNote}
+                  setIsOpen={setEditNote}
+                />
+                <MetadataViewer
+                  metadata={useMetadata}
+                  isOpen={useViewMetadata}
+                  setIsOpen={setViewMetadata}
+                />
                 <ScrollArea className="h-full w-full">
                   <Table className="w-full">
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">id</TableHead>
-                        <TableHead>auth</TableHead>
+                        <TableHead>note</TableHead>
                         <TableHead className="text-right">expire</TableHead>
                         <TableHead className="text-right"></TableHead>
                       </TableRow>
@@ -278,7 +298,7 @@ export default function InspectLicenses() {
                               {License.id.slice(0, 8) + "..."}
                             </TableCell>
                             <TableCell key={License.id + "0"}>
-                              {License.auth}
+                              {License.note || "Unset"}
                             </TableCell>
                             <TableCell
                               className="text-right"
@@ -292,6 +312,22 @@ export default function InspectLicenses() {
                                 <MenubarMenu>
                                   <MenubarTrigger>...</MenubarTrigger>
                                   <MenubarContent>
+                                    <MenubarItem
+                                      onClick={() => {
+                                        setEditNote(true);
+                                        setLicense(License.id);
+                                      }}
+                                    >
+                                      Edit note
+                                    </MenubarItem>
+                                    <MenubarItem
+                                      onClick={() => {
+                                        setMetadata(License.metadata || "");
+                                        setViewMetadata(true);
+                                      }}
+                                    >
+                                      View Metadata
+                                    </MenubarItem>
                                     <MenubarItem
                                       onClick={() => {
                                         navigator.clipboard.writeText(

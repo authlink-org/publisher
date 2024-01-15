@@ -72,12 +72,10 @@ export default function CreateLicenseDialog({
               <DatePickerDemo date={date} setDate={setDate} />
             </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="lifetime" />
+              <Checkbox defaultChecked={true} id="lifetime" />
               <label
                 htmlFor="lifetime"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                defaultChecked={true}
-                defaultValue={"true"}
               >
                 Lifetime license
               </label>
@@ -101,7 +99,9 @@ export default function CreateLicenseDialog({
                 CreateLicense(
                   project,
                   date,
-                  Lifetime.value === "true" ? true : false
+                  Lifetime.getAttribute("data-state") === "checked"
+                    ? true
+                    : false
                 ).then((Response) => {
                   setResponse(Response);
                   if (!Response?.success) {

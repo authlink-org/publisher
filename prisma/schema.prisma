@@ -86,6 +86,8 @@ model License {
   expire   DateTime @default(now())
   free     Boolean  @default(false)
   lifetime Boolean  @default(false)
+  note     String?  @default("None")
+  metadata String?  @default("None")
 
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String?

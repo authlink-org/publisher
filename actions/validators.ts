@@ -36,6 +36,14 @@ export const ProfileValidator = z.object({
     .optional(),
 });
 
+export const NoteValidator = z
+  .string({
+    invalid_type_error: "Note must be a string.",
+  })
+  .min(0, "Note lenght cannot be less than 0 characters.")
+  .max(20, "Note lenght cannot be longer than 20 characters.")
+  .optional();
+
 export const ProjectValidator = z.object({
   title: z
     .string({
