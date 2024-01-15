@@ -71,8 +71,17 @@ export default function Navbar() {
       <div className="mt-10 container mx-auto">
         <Alert>
           <Contact2Icon className="h-4 w-4" />
-          <AlertTitle>Telegram and Feature Requests</AlertTitle>
+          <AlertTitle>
+            New Loader Version is now out. (<b>v1.1</b>)
+          </AlertTitle>
           <AlertDescription>
+            <a
+              href="https://authlink.canny.io/changelog/changelog-2"
+              className="underline underline-offset-4 text-green-300"
+            >
+              <b>Read Latest Changelog.</b>
+            </a>
+            <br />
             Join our{" "}
             <a
               className="underline underline-offset-4"
@@ -92,6 +101,7 @@ export default function Navbar() {
               Community Board
             </a>
             .
+            <br />
           </AlertDescription>
         </Alert>
       </div>
