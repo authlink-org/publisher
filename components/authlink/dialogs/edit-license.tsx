@@ -45,7 +45,9 @@ export default function EditLicenseDialog({
     <>
       <Dialog>
         <DialogTrigger className="mr-4">
-          <Button>Edit free config</Button>
+          <Button variant={"outline"} className="w-full">
+            Edit free config
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

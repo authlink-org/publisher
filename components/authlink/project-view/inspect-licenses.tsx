@@ -92,6 +92,7 @@ import { Loader2Icon } from "lucide-react";
 
 import EditNote from "../dialogs/editnote";
 import MetadataViewer from "../dialogs/viewmetadata";
+import MobileNavbar from "../mobile-navbar";
 
 export default function InspectLicenses() {
   const Clerk = useClerk();
@@ -202,6 +203,7 @@ export default function InspectLicenses() {
       </div>
       <div className="container mx-auto space-y-6 p-10 pb-16 md:block -mt-20">
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <MobileNavbar id={id} Project={Project} />
           <aside className="-mx-4 lg:w-1/5 hidden lg:block">
             <nav className="flex space-x-2 ml-8 lg:flex-col lg:space-x-0 lg:space-y-4">
               <a
@@ -262,7 +264,6 @@ export default function InspectLicenses() {
                   <span className="flex justify-between">
                     <p>Licenses</p>
                     <div>
-                      <EditLicenseDialog project={Project?.id} />
                       <CreateLicenseDialog project={Project?.id} />
                     </div>
                   </span>
@@ -378,7 +379,7 @@ export default function InspectLicenses() {
                 </ScrollArea>
               </CardContent>
             </Card>
-            <div className="flex">
+            <div className="flex grid gap-4">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button className="col-span-2 mr-4">
@@ -450,6 +451,7 @@ export default function InspectLicenses() {
                   </div>
                 </DialogContent>
               </Dialog>
+              <EditLicenseDialog project={Project?.id} />
             </div>
           </div>
         </div>

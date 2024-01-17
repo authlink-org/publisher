@@ -39,6 +39,15 @@ import {
 } from "@radix-ui/react-icons";
 
 import EditProjectDialog from "../dialogs/edit-project";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { AlertDialogHeader } from "@/components/ui/alert-dialog";
+
+import MobileNavbar from "../mobile-navbar";
 
 export default function InspectProject() {
   const Clerk = useClerk();
@@ -137,6 +146,7 @@ export default function InspectProject() {
       </div>
       <div className="container mx-auto space-y-6 p-10 pb-16 md:block -mt-20">
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <MobileNavbar id={id} Project={Project} />
           <aside className="-mx-4 lg:w-1/5 hidden lg:block">
             <nav className="flex space-x-2 ml-8 lg:flex-col lg:space-x-0 lg:space-y-4">
               <a
