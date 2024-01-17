@@ -74,12 +74,116 @@ export default function EditProjectDialog({
 
   const Languages = {
     Lua: `
-
-shared.auth_link_license = "LICENSE HERE"
-
--- obfuscate everything else
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/MaHuJa/CC-scripts/master/sha256.lua"))()
+
+local authlinkkey = Instance.new("ScreenGui")
+local background = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local checkkey = Instance.new("TextButton")
+local UICorner_2 = Instance.new("UICorner")
+local getkey = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local Frame = Instance.new("Frame")
+local UICorner_4 = Instance.new("UICorner")
+local lockicon = Instance.new("ImageLabel")
+local TextBox = Instance.new("TextBox")
+local Frame_2 = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+
+--Properties:
+
+authlinkkey.Name = "authlink-key"
+authlinkkey.Parent = game:GetService("CoreGui")
+
+background.Name = "background"
+background.Parent = authlinkkey
+background.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+background.BorderSizePixel = 0
+background.Position = UDim2.new(0.5, -247, 0.5, -172)
+background.Size = UDim2.new(0, 494, 0, 344)
+
+UICorner.Parent = background
+
+checkkey.Name = "checkkey"
+checkkey.Parent = background
+checkkey.BackgroundColor3 = Color3.fromRGB(22, 163, 74)
+checkkey.BorderColor3 = Color3.fromRGB(0, 0, 0)
+checkkey.BorderSizePixel = 0
+checkkey.Position = UDim2.new(0.121457487, 0, 0.790697694, 0)
+checkkey.Size = UDim2.new(0, 174, 0, 41)
+checkkey.AutoButtonColor = false
+checkkey.Font = Enum.Font.ArialBold
+checkkey.Text = "Get Key"
+checkkey.TextColor3 = Color3.fromRGB(255, 255, 255)
+checkkey.TextSize = 14.000
+checkkey.TextWrapped = true
+
+UICorner_2.Parent = checkkey
+
+getkey.Name = "getkey"
+getkey.Parent = background
+getkey.BackgroundColor3 = Color3.fromRGB(22, 163, 74)
+getkey.BorderColor3 = Color3.fromRGB(0, 0, 0)
+getkey.BorderSizePixel = 0
+getkey.Position = UDim2.new(0.526315808, 0, 0.790697694, 0)
+getkey.Size = UDim2.new(0, 174, 0, 41)
+getkey.AutoButtonColor = false
+getkey.Font = Enum.Font.ArialBold
+getkey.Text = "Check Key"
+getkey.TextColor3 = Color3.fromRGB(255, 255, 255)
+getkey.TextSize = 14.000
+getkey.TextWrapped = true
+
+UICorner_3.Parent = getkey
+
+Frame.Parent = background
+Frame.BackgroundColor3 = Color3.fromRGB(22, 163, 74)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.435222685, 0, 0.0959302336, 0)
+Frame.Size = UDim2.new(0, 63, 0, 63)
+
+UICorner_4.CornerRadius = UDim.new(1, 8)
+UICorner_4.Parent = Frame
+
+lockicon.Name = "lockicon"
+lockicon.Parent = Frame
+lockicon.BackgroundTransparency = 1.000
+lockicon.Position = UDim2.new(0.26000008, 0, 0.26000008, 0)
+lockicon.Size = UDim2.new(0, 29, 0, 29)
+lockicon.Image = "rbxassetid://2790565506"
+
+TextBox.Parent = background
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.121457487, 0, 0.569767416, 0)
+TextBox.Size = UDim2.new(0, 374, 0, 50)
+TextBox.Font = Enum.Font.SourceSans
+TextBox.PlaceholderText = "Put your license key here.."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.TextSize = 14.000
+TextBox.TextXAlignment = Enum.TextXAlignment.Left
+
+Frame_2.Parent = TextBox
+Frame_2.BackgroundColor3 = Color3.fromRGB(22, 163, 74)
+Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BorderSizePixel = 0
+Frame_2.Position = UDim2.new(0, 0, 0.879999995, 0)
+Frame_2.Size = UDim2.new(0, 374, 0, 3)
+
+TextLabel.Parent = background
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.121457487, 0, 0.325581402, 0)
+TextLabel.Size = UDim2.new(0, 374, 0, 50)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "${title}"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextSize = 20.000
 
 local ClientVersion = "v1.1"
 local API_Endpoint = "https://auth.authlink.org/"
@@ -93,15 +197,6 @@ local API_Version = game:HttpGet(API_Endpoint .. "version")
 if(API_Version ~= ClientVersion) then
   a_error("There is a new version available (%s)", API_Version)
 end
-
-local Seed = 0
-for i = 1, 10 do
-  for i = 1, math.random(1, 100) do
-    Seed = Seed + math.random()
-  end
-end
-Seed = tostring(Seed)
-local HashedSeed = sha256(Seed)
 
 local Authenticate = API_Endpoint .. "authenticate?a=%s&b=%s&c=%s&d=%s"
 
@@ -133,7 +228,6 @@ local function dec(data)
     end))
 end
 
-
 local Metadata = "RBLX-Username:%s,,,RBLX-UserId:%s"
 local LocalPlayer = game:GetService('Players').LocalPlayer
 local Name, userId = LocalPlayer.Name, LocalPlayer.UserId
@@ -141,36 +235,63 @@ Metadata = Metadata:format(Name, tostring(userId))
 
 local Encoded = enc(Metadata)
 
-local AuthURL = Authenticate:format(
-  shared.auth_link_license,
-  Seed,
-  "${Params.id}",
-  Encoded
-)
+local IsAuthenticated = false
+local IsPremium = false
 
-local Response = game:HttpGet(AuthURL)
-
-local CanDecode, Decoded = pcall(function()
-  return game:GetService("HttpService"):JSONDecode(Response)
+checkkey.MouseButton1Click:Connect(function()
+    setclipboard("https://authlink.org/p/${Params.id}")
 end)
 
-if(not CanDecode) then
-  return a_error("Unable to decode server response.")
-end
+getkey.MouseButton1Click:Connect(function()
+  local key = TextBox.Text
+  local FormattedUrl = ""
+  if #key < 0 then
+    return
+  end
 
-if(not Decoded.success) then
-  return a_error("Server responded with an unsuccessful message.")
-end
+  local Seed = 0
+  for i = 1, 10 do
+    for i = 1, math.random(1, 100) do
+      Seed = Seed + math.random()
+    end
+  end
+  Seed = tostring(Seed)
+  local HashedSeed = sha256(Seed)
 
-if(Decoded.validator ~= HashedSeed) then
-  return a_error("Server responded with invalid data.")
-end
+  local AuthURL = Authenticate:format(
+    key,
+    Seed,
+    "${Params.id}",
+    Encoded
+  )
 
-local IsPremium = not Decoded.free
+  local Response = game:HttpGet(AuthURL)
 
-warn("Authenticated")
-warn("User is premium?", IsPremium)
-  
+  local CanDecode, Decoded = pcall(function()
+    return game:GetService("HttpService"):JSONDecode(Response)
+  end)
+
+  if(not CanDecode) then
+    return a_error("Unable to decode server response.")
+  end
+
+  if(not Decoded.success) then
+    return a_error("Server responded with an unsuccessful message.")
+  end
+
+  if(Decoded.validator ~= HashedSeed) then
+    return a_error("Server responded with invalid data.")
+  end
+
+  IsPremium = not Decoded.free
+  IsAuthenticated = true
+  authlinkkey:Destroy()
+end)
+
+repeat task.wait() until IsAuthenticated
+
+print("Authenticated")
+print("Is Premium", IsPremium)
   `,
     CSharp: `
 using System.Net;

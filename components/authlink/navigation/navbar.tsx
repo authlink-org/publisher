@@ -82,17 +82,8 @@ export default function Navbar() {
       <div className="mt-2 container mx-auto">
         <Alert>
           <Contact2Icon className="h-4 w-4" />
-          <AlertTitle>
-            New Loader Version is now out. (<b>v1.1</b>)
-          </AlertTitle>
+          <AlertTitle>Roblox now has a GUI Loader!</AlertTitle>
           <AlertDescription>
-            <a
-              href="https://authlink.canny.io/changelog/changelog-2"
-              className="underline underline-offset-4 text-green-300"
-            >
-              <b>Read Latest Changelog.</b>
-            </a>
-            <br />
             Join our{" "}
             <a
               className="underline underline-offset-4"
