@@ -16,7 +16,9 @@ import {
   Contact2Icon,
   ContactIcon,
   Link2Icon,
+  MoonIcon,
   ShieldAlertIcon,
+  SunIcon,
   User2Icon,
 } from "lucide-react";
 
@@ -32,8 +34,11 @@ import { CrosshairIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { useTheme } from "next-themes";
+
 export default function Navbar() {
   const Clerk = useClerk();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (!Clerk.user) return;
@@ -52,10 +57,12 @@ export default function Navbar() {
           <div className="flex justify-between">
             <div className="flex justify-between mt-1 mr-3">
               <h2 className="scroll-m-20 mt-1.5 mr-4 text-xl font-semibold text-lime-500">
-                {/* <a href="/">AuthLink</a> */}
                 <a href="/">
                   <Image
-                    src="/authlink-logo-full.svg"
+                    src={
+                      (theme == "light" && "/authlink-logo-full.svg") ||
+                      "/authlink-logo-full-light.png"
+                    }
                     width={"150"}
                     height={"0"}
                     alt="AuthLink Logo"
@@ -64,6 +71,18 @@ export default function Navbar() {
               </h2>
             </div>
             <div className="flex flex-row mt-1">
+              <Button
+                className="mr-2"
+                variant={"outline"}
+                size={"icon"}
+                onClick={() => {
+                  setTheme((theme == "light" && "dark") || "light");
+                }}
+              >
+                {(theme == "light" && <SunIcon className="h-4 w-4" />) || (
+                  <MoonIcon className="h-4 w-4" />
+                )}
+              </Button>
               <User />
             </div>
           </div>
