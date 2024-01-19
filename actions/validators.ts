@@ -56,7 +56,7 @@ export const ProjectValidator = z.object({
       /^[A-z|0-9| ]*$/,
       "Title can only contain Spaces and normal characters."
     ),
-  monetization_method: z.enum(["linkvertise", "workink"], {
+  monetization_method: z.enum(["linkvertise", "workink", "lootlabs"], {
     invalid_type_error: "Monetization Method doesn't have the correct type.",
     required_error: "Monetization Method must be set.",
   }),
@@ -107,4 +107,23 @@ export const LicenseValidator = z.object({
     invalid_type_error: "Date must be a date.",
     required_error: "Date must be set",
   }),
+});
+
+export const LootlabsValidator = z.object({
+  ad_control: z.enum(["tier-1", "tier-2", "tier-3"]),
+  tasks: z
+    .number({
+      required_error: "Task Amount must be set.",
+      invalid_type_error: "Task Amount must be a number.",
+    })
+    .min(1, "Task Amount must be above 0.")
+    .max(5, "Task Amount cannot be above 5."),
+  theme: z.enum(["theme-1", "theme-2", "theme-3", "theme-4", "theme-5"]),
+  api: z
+    .string({
+      required_error: "API Key must be set.",
+      invalid_type_error: "API Key must be a string.",
+    })
+    .min(64, "API Key must be a valid key.")
+    .max(64, "API Key must be a valid key."),
 });

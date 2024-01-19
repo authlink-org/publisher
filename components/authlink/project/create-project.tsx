@@ -102,6 +102,7 @@ export default function CreateProjectButton({
                   <SelectGroup>
                     <SelectItem value="linkvertise">linkvertise</SelectItem>
                     <SelectItem value="workink">workink</SelectItem>
+                    <SelectItem value="lootlabs">lootlabs</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -166,7 +167,9 @@ export default function CreateProjectButton({
                 }
 
                 if (
-                  !["linkvertise", "workink"].includes(Monetization.innerHTML)
+                  !["linkvertise", "workink", "lootlabs"].includes(
+                    Monetization.innerHTML
+                  )
                 ) {
                   return setResponse({
                     success: false,

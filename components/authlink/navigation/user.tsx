@@ -18,6 +18,8 @@ import SignOutPrompt from "./extra/signout";
 import UpdateProfileButton from "./extra/updateprofile";
 import { useState } from "react";
 
+import EditLootlabsConfig from "../dialogs/edit-lootlabs";
+
 export default function User() {
   const Clerk = useClerk();
   const [Open, setOpen] = useState(false);
@@ -49,6 +51,7 @@ export default function User() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <UpdateProfileButton />
+          <EditLootlabsConfig />
           <SignOutPrompt />
         </DropdownMenuContent>
       </DropdownMenu>

@@ -21,6 +21,11 @@ model Profile {
   linkvertise_api String?
   workink_api     String?
 
+  lootlabs_api             String?
+  lootlabs_tier_id         Int?
+  lootlabs_number_of_tasks Int?
+  lootlabs_theme           Int?
+
   projects Project[]
 }
 
