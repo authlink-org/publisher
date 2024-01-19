@@ -101,7 +101,15 @@ export default function Navbar() {
       <div className="mt-2 container mx-auto">
         <Alert>
           <Contact2Icon className="h-4 w-4" />
-          <AlertTitle>Roblox now has a GUI Loader!</AlertTitle>
+          <AlertTitle>
+            <a
+              href="https://lootlabs.gg/?rpid=335575"
+              className="underline underline-offset-4 text-purple-500"
+            >
+              LootLabs.gg
+            </a>{" "}
+            Integration Added.
+          </AlertTitle>
           <AlertDescription>
             Join our{" "}
             <a
