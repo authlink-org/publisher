@@ -33,7 +33,7 @@ export default async function CreateProject(
     };
   }
 
-  await prisma.project.create({
+  const R = await prisma.project.create({
     data: {
       title: title,
       description: description,
@@ -41,6 +41,15 @@ export default async function CreateProject(
       youtube_url: youtube_url,
       monetization_method: monetization_method,
       profileClerk: userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  await prisma.log.create({
+    data: {
+      projectId: R.id,
     },
   });
 
