@@ -101,36 +101,10 @@ export default function Navbar() {
       <div className="mt-2 container mx-auto">
         <Alert>
           <Contact2Icon className="h-4 w-4" />
-          <AlertTitle>
-            <a
-              href="https://lootlabs.gg/?rpid=335575"
-              className="underline underline-offset-4 text-purple-500"
-            >
-              LootLabs.gg
-            </a>{" "}
-            Integration Added.
-          </AlertTitle>
+          <AlertTitle>Income Boost with extra offers!</AlertTitle>
           <AlertDescription>
-            Join our{" "}
-            <a
-              className="underline underline-offset-4"
-              href="https://t.me/authlink"
-              target="telegram"
-            >
-              Telegram Channel
-            </a>{" "}
-            to recieve update notifications.
-            <br />
-            You can also request new features on our{" "}
-            <a
-              className="underline underline-offset-4"
-              href="https://authlink.canny.io/feature-requests"
-              target="feature-requests"
-            >
-              Community Board
-            </a>
-            .
-            <br />
+            We have enabled offers across your project pages, to view your
+            balance contact your account manager.
           </AlertDescription>
         </Alert>
       </div>
