@@ -15,6 +15,7 @@ import {
 import {
   Contact2Icon,
   ContactIcon,
+  DollarSignIcon,
   Link2Icon,
   MoonIcon,
   ShieldAlertIcon,
@@ -100,11 +101,11 @@ export default function Navbar() {
       </div>
       <div className="mt-2 container mx-auto">
         <Alert>
-          <Contact2Icon className="h-4 w-4" />
-          <AlertTitle>Income Boost with extra offers!</AlertTitle>
+          <DollarSignIcon className="h-4 w-4" />
+          <AlertTitle>Partner ads are now available!</AlertTitle>
           <AlertDescription>
-            We have enabled offers across your project pages, to view your
-            balance contact your account manager.
+            Earn more money by using our partner ads on top of your Linkvertise,
+            Work.Ink or LootLabs.gg offers!
           </AlertDescription>
         </Alert>
       </div>
