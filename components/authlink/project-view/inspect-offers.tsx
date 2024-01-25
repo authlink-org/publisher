@@ -10,6 +10,10 @@ import { useParams } from "next/navigation";
 
 import { GetProject } from "@/actions/project/get-project";
 
+import * as ReChart from "recharts";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import LoadingInpsect from "./loading-inspect";
 import DeleteProjectButton from "./delete-project";
 import {
@@ -23,11 +27,33 @@ import numeral from "numeral";
 import { Separator } from "@/components/ui/separator";
 
 import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import RegenerateAPIKey from "@/actions/api/regenerate";
+
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 import { hasFlag } from "country-flag-icons";
 import Image from "next/image";
@@ -38,22 +64,48 @@ import {
   QuestionMarkIcon,
 } from "@radix-ui/react-icons";
 
+import GetLogs from "@/actions/logs/getlogs";
+
+import GetLicenses from "@/actions/licenses/getlicenses";
+
 import EditProjectDialog from "../dialogs/edit-project";
+
+import CreateLicenseDialog from "../dialogs/create-license";
+import moment from "moment";
+import DeleteLicense from "@/actions/licenses/deletelicense";
+import { toast } from "sonner";
+import ResetAuth from "@/actions/licenses/resetauth";
+
+import EditLicenseDialog from "../dialogs/edit-license";
 import {
   Dialog,
-  DialogContent,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogContent,
+  DialogDescription,
 } from "@/components/ui/dialog";
-import { AlertDialogHeader } from "@/components/ui/alert-dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Loader2Icon } from "lucide-react";
 
+import EditNote from "../dialogs/editnote";
+import MetadataViewer from "../dialogs/viewmetadata";
 import MobileNavbar from "../mobile-navbar";
+import GetStats from "@/actions/partner/get-stats";
 
-export default function InspectProject() {
+export default function InspectOffers() {
   const Clerk = useClerk();
   const Params = useParams();
 
   const [Loading, setLoading] = useState(true);
+  const [Regenerating, setRegenerating] = useState(false);
+
+  const [useEditNote, setEditNote] = useState(false);
+  const [useLicense, setLicense] = useState("");
+  const [useViewMetadata, setViewMetadata] = useState(false);
+  const [useMetadata, setMetadata] = useState("");
 
   const [Project, setProject] = useState<{
     id: string;
@@ -63,6 +115,7 @@ export default function InspectProject() {
     verified: boolean;
     createdAt: Date;
     views: number;
+    api_key: string | null;
     block_adblock: boolean;
     monetization_method: string;
     image_url: string | null;
@@ -75,6 +128,7 @@ export default function InspectProject() {
     active: false,
     verified: false,
     createdAt: new Date(),
+    api_key: "",
     views: 0,
     block_adblock: false,
     monetization_method: "",
@@ -82,20 +136,13 @@ export default function InspectProject() {
     youtube_url: "",
     profileClerk: "",
   });
-
-  const [UniqueViews, setUniqueViews] = useState<number | undefined>(0);
-
-  let [TopCountries, setTopCountries] = useState<
-    | Array<{
-        _count: {
-          country_code: number;
-        };
-        country_code: string;
-      }>
-    | undefined
-  >();
+  const [Balance, SetBalance] = useState(0);
+  const [Logs, SetLogs] = useState<
+    { id: number; source: string; amount: string }[]
+  >([]);
 
   const { id } = Params;
+  const [Keys, setKeys] = useState("");
 
   function RefreshProjects() {
     if (!Clerk?.user?.id) return;
@@ -103,18 +150,25 @@ export default function InspectProject() {
 
     GetProject(String(id)).then((Project) => {
       if (!Project?.title) return (window.location.href = "/");
-      setProject(Project);
-      GetUniqueViews(String(id)).then((Views) => {
-        setUniqueViews(Views);
-      });
-      GetTopCountry(String(id), 10).then((Res) => {
-        if (Res) {
-          setTopCountries(Res);
-        }
+
+      GetStats(Project.id).then((XLogs) => {
+        SetLogs(XLogs);
         setLoading(false);
+        XLogs.map((I) => {
+          SetBalance(Balance + Number(I.amount));
+        });
       });
     });
   }
+
+  useEffect(() => {
+    let Amount = 0;
+    Logs.map((I) => {
+      Amount += Number(I.amount);
+    });
+    console.log(Amount);
+    SetBalance(Amount);
+  }, [Logs]);
 
   useEffect(RefreshProjects, [Clerk.user]);
 
@@ -150,19 +204,19 @@ export default function InspectProject() {
           <aside className="-mx-4 lg:w-1/5 hidden lg:block">
             <nav className="flex space-x-2 ml-8 lg:flex-col lg:space-x-0 lg:space-y-4">
               <a
-                href={`/view/${id}`}
+                href="./"
                 className="w-full hover:underline underline-offset-4"
               >
                 Overview
               </a>
               <a
-                href={`/view/${id}/analytics`}
+                href="./analytics"
                 className="w-full hover:underline underline-offset-4 text-left"
               >
                 Analytics
               </a>
               <a
-                href={`/view/${id}/licenses`}
+                href="./licenses"
                 className="w-full hover:underline underline-offset-4 text-left"
               >
                 Licenses
@@ -176,21 +230,23 @@ export default function InspectProject() {
                 Partner
               </Button>
               <Separator />
-              <EditProjectDialog
-                key={Project?.id}
-                id={Project?.id || ""}
-                title={Project?.title || ""}
-                description={Project?.description || ""}
-                active={Project?.active || false}
-                verified={Project?.verified || false}
-                createdAt={Project?.createdAt || new Date()}
-                views={Project?.views || 0}
-                block_adblock={Project?.block_adblock || false}
-                monetization_method={Project?.monetization_method || ""}
-                image_url={Project?.image_url || ""}
-                youtube_url={Project?.youtube_url || ""}
-                profileClerk={Project?.profileClerk || ""}
-              />
+              {Project?.title && (
+                <EditProjectDialog
+                  key={Project.id}
+                  id={Project.id}
+                  title={Project.title}
+                  description={Project.description}
+                  active={Project.active}
+                  verified={Project.verified}
+                  createdAt={Project.createdAt}
+                  views={Project.views}
+                  block_adblock={Project.block_adblock}
+                  monetization_method={Project.monetization_method}
+                  image_url={Project.image_url}
+                  youtube_url={Project.youtube_url}
+                  profileClerk={Project.profileClerk}
+                />
+              )}
               <Button
                 variant={"link"}
                 onClick={() => {
@@ -205,122 +261,117 @@ export default function InspectProject() {
               </Button>
             </nav>
           </aside>
+
           <div className="container mx-auto flex w-full flex-col items-center justify-center gap-2 p-6 md:grid md:grid-cols-2 md:gap-0 lg:grid-cols-2">
             <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
               <CardHeader>
                 <CardTitle className="text-md">
                   <span className="flex justify-between">
-                    <p>Views</p>
+                    <p>Balance</p>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <QuestionMarkCircledIcon className="w-4 h-4" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          The amount of times your project has been viewed.
+                          The amount of money eligible for withdrawal.
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </span>
                 </CardTitle>
-                <CardDescription>All time.</CardDescription>
+                <CardDescription>Your effective balance.</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl">
-                  {numeral(Project?.views || 0).format("0,0")}
-                </p>
+                <p className="text-2xl">${Balance.toFixed(4)} USD</p>
               </CardContent>
             </Card>
             <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
               <CardHeader>
                 <CardTitle className="text-md">
                   <span className="flex justify-between">
-                    <p>Unique Views</p>
+                    <p>Offers Finished</p>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <QuestionMarkCircledIcon className="w-4 h-4" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          The amount of times your project has attracted new
-                          users.
+                          The amount of offers finished.
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </span>
                 </CardTitle>
-                <CardDescription>All Time.</CardDescription>
+                <CardDescription>Amount of offers finished.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl">{Logs.length}</p>
+              </CardContent>
+            </Card>
+            <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full">
+              <CardHeader>
+                <CardTitle className="text-md">
+                  <span className="flex justify-between">
+                    <p>eCPM</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <QuestionMarkCircledIcon className="w-4 h-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Estimated amount you will earn per 1,000 offers
+                          finished.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </span>
+                </CardTitle>
+                <CardDescription>
+                  Estimated amount you will earn per 1K offers.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-2xl">
-                  {numeral(UniqueViews || 0).format("0,0")}
+                  $
+                  {(Balance === 0 && "0.0000") ||
+                    ((1000 * Balance) / Logs.length).toFixed(4)}{" "}
+                  USD
                 </p>
               </CardContent>
             </Card>
             <Card className="relative max-w-sm min-w-96 min-h-32 mb-8 ml-4 max-w-full col-span-2">
               <CardHeader>
                 <CardTitle className="text-md">
-                  {" "}
                   <span className="flex justify-between">
-                    <p>Top Country</p>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <QuestionMarkCircledIcon className="w-4 h-4" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          The country where most of your users live in.
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <p>Partner Results</p>
                   </span>
                 </CardTitle>
-                <CardDescription>All time.</CardDescription>
               </CardHeader>
-              <CardContent>
-                {(((TopCountries && TopCountries.length) || 0) > 0 && (
-                  <>
-                    <div className="flex">
-                      <p className="text-2xl mr-1">
-                        {TopCountries && TopCountries[0].country_code}
-                      </p>
-                      <sub>
-                        {" "}
-                        <Image
-                          className="mr-4"
-                          width={"18"}
-                          height={"18"}
-                          src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${
-                            TopCountries && TopCountries[0].country_code
-                          }.svg`}
-                          alt={`${
-                            (TopCountries && TopCountries[0].country_code) ||
-                            "Not found"
-                          } Flag`}
-                        />
-                      </sub>
-                    </div>
-                  </>
-                )) || <p className="text-2xl mr-1">Not found</p> || (
-                    <p className="text-2xl mr-1">Not found</p>
-                  )}
-                {/* {(hasFlag("US") && (
-                  <>
-                    <div className="flex">
-                      <p className="text-2xl mr-1">US</p>
-                      <sub>
-                        {" "}
-                        <Image
-                          className="mr-4"
-                          width={"18"}
-                          height={"18"}
-                          src="https://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg"
-                          alt="US Flag"
-                        />
-                      </sub>
-                    </div>
-                  </>
-                )) || <>US</>} */}
+              <CardContent className="w-full h-64">
+                <ScrollArea className="h-full w-full">
+                  <Table className="w-full">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-right">amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {Logs.map((Log, id) => {
+                        return (
+                          <TableRow key={id}>
+                            <TableCell
+                              className="text-right"
+                              key={id + "-amount"}
+                            >
+                              {"$" + Number(Log.amount).toFixed(4) + " USD"}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </ScrollArea>
               </CardContent>
             </Card>
           </div>

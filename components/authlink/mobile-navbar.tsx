@@ -53,6 +53,14 @@ export default function MobileNavbar({
               >
                 Licenses
               </Button>
+              <Button
+                onClick={() => {
+                  window.location.href = `/view/${id}/partner`;
+                }}
+                variant={"outline"}
+              >
+                Partner
+              </Button>
               <EditProjectDialog
                 key={Project?.id}
                 id={Project?.id || ""}
