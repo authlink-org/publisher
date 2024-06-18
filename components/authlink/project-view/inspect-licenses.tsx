@@ -224,14 +224,6 @@ export default function InspectLicenses() {
               >
                 Licenses
               </a>
-              <Button
-                onClick={() => {
-                  window.location.href = `/view/${id}/partner`;
-                }}
-                variant={"outline"}
-              >
-                Partner
-              </Button>
               <Separator />
               {Project?.title && (
                 <EditProjectDialog

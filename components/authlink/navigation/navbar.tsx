@@ -89,26 +89,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <div className="mt-10 container mx-auto">
-        <Alert>
-          <User2Icon className="h-4 w-4" />
-          <AlertTitle>Account manager contact.</AlertTitle>
-          <AlertDescription>
-            You can contact your account manager on discord by sending a friend
-            request: <b>eax.al</b>.
-          </AlertDescription>
-        </Alert>
-      </div>
-      <div className="mt-2 container mx-auto">
-        <Alert>
-          <DollarSignIcon className="h-4 w-4" />
-          <AlertTitle>Partner ads are now available!</AlertTitle>
-          <AlertDescription>
-            Earn more money by using our partner ads on top of your Linkvertise,
-            Work.Ink or LootLabs.gg offers!
-          </AlertDescription>
-        </Alert>
-      </div>
     </div>
   );
 }
