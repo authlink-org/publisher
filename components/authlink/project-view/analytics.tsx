@@ -56,7 +56,6 @@ import GetLogs from "@/actions/logs/getlogs";
 
 import EditProjectDialog from "../dialogs/edit-project";
 import MobileNavbar from "../mobile-navbar";
-import GetHostList from "@/actions/hosts/gethostlist";
 
 export default function InspectAnalytics() {
   const Clerk = useClerk();
@@ -131,19 +130,6 @@ export default function InspectAnalytics() {
 
   useEffect(RefreshProjects, [Clerk.user]);
 
-  const [HostList, setHostList] = useState({
-    publisher: "NULL",
-    browser: "NULL",
-    auth: "NULL",
-    payments: "NULL",
-  });
-
-  useEffect(() => {
-    GetHostList().then((_HostList) => {
-      setHostList(_HostList);
-    });
-  }, []);
-
   if (Loading) {
     return <LoadingInpsect />;
   }
@@ -215,7 +201,7 @@ export default function InspectAnalytics() {
                 variant={"link"}
                 onClick={() => {
                   window.open(
-                    `https://${HostList.browser}/p/${Project?.id}`,
+                    `https://authlink.org/p/${Project?.id}`,
                     "_authlink",
                     "popup,width=600,height=1000"
                   );

@@ -94,7 +94,6 @@ import EditNote from "../dialogs/editnote";
 import MetadataViewer from "../dialogs/viewmetadata";
 import MobileNavbar from "../mobile-navbar";
 import GetStats from "@/actions/partner/get-stats";
-import GetHostList from "@/actions/hosts/gethostlist";
 
 export default function InspectOffers() {
   const Clerk = useClerk();
@@ -172,18 +171,6 @@ export default function InspectOffers() {
   }, [Logs]);
 
   useEffect(RefreshProjects, [Clerk.user]);
-
-  const [HostList, setHostList] = useState({
-    publisher: "NULL",
-    browser: "NULL",
-    auth: "NULL",
-  });
-
-  useEffect(() => {
-    GetHostList().then((_HostList) => {
-      setHostList(_HostList);
-    });
-  }, []);
 
   if (Loading) {
     return <LoadingInpsect />;
@@ -264,7 +251,7 @@ export default function InspectOffers() {
                 variant={"link"}
                 onClick={() => {
                   window.open(
-                    `https://${HostList.browser}/p/${Project?.id}`,
+                    `https://authlink.org/p/${Project?.id}`,
                     "_authlink",
                     "popup,width=600,height=1000"
                   );

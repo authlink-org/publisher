@@ -93,7 +93,6 @@ import { Loader2Icon } from "lucide-react";
 import EditNote from "../dialogs/editnote";
 import MetadataViewer from "../dialogs/viewmetadata";
 import MobileNavbar from "../mobile-navbar";
-import GetHostList from "@/actions/hosts/gethostlist";
 
 export default function InspectLicenses() {
   const Clerk = useClerk();
@@ -176,19 +175,6 @@ export default function InspectLicenses() {
 
   useEffect(RefreshProjects, [Clerk.user]);
 
-  const [HostList, setHostList] = useState({
-    publisher: "NULL",
-    browser: "NULL",
-    auth: "NULL",
-    payments: "NULL",
-  });
-
-  useEffect(() => {
-    GetHostList().then((_HostList) => {
-      setHostList(_HostList);
-    });
-  }, []);
-
   if (Loading) {
     return <LoadingInpsect />;
   }
@@ -260,7 +246,7 @@ export default function InspectLicenses() {
                 variant={"link"}
                 onClick={() => {
                   window.open(
-                    `https://${HostList.browser}/p/${Project?.id}`,
+                    `https://authlink.org/p/${Project?.id}`,
                     "_authlink",
                     "popup,width=600,height=1000"
                   );
@@ -427,7 +413,7 @@ export default function InspectLicenses() {
                         type="text"
                         id="url"
                         placeholder="2"
-                        value={`https://${HostList.payments}/sellix/${
+                        value={`https://payments.authlink.org/sellix/${
                           Project?.api_key || "REGENERATE-YOUR-API-KEY"
                         }/webhook`}
                         readOnly

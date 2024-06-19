@@ -48,7 +48,6 @@ import {
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 
 import MobileNavbar from "../mobile-navbar";
-import GetHostList from "@/actions/hosts/gethostlist";
 
 export default function InspectProject() {
   const Clerk = useClerk();
@@ -119,18 +118,6 @@ export default function InspectProject() {
 
   useEffect(RefreshProjects, [Clerk.user]);
 
-  const [HostList, setHostList] = useState({
-    publisher: "NULL",
-    browser: "NULL",
-    auth: "NULL",
-  });
-
-  useEffect(() => {
-    GetHostList().then((_HostList) => {
-      setHostList(_HostList);
-    });
-  }, []);
-
   if (Loading) {
     return <LoadingInpsect />;
   }
@@ -200,7 +187,7 @@ export default function InspectProject() {
                 variant={"link"}
                 onClick={() => {
                   window.open(
-                    `https://${HostList.browser}/p/${Project?.id}`,
+                    `https://authlink.org/p/${Project?.id}`,
                     "_authlink",
                     "popup,width=600,height=1000"
                   );
