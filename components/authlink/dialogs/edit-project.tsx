@@ -199,7 +199,9 @@ TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.TextSize = 20.000
 
 local ClientVersion = "v1.1"
+-- EDIT ME IF UNSET
 local API_Endpoint = "https://${HostList.auth}/"
+-- EDIT ME IF UNSET
 
 function a_error(msg, ...)
   return warn(("[AuthLink - %s]: %s"):format(ClientVersion, msg:format(...)))
@@ -252,7 +254,9 @@ local IsAuthenticated = false
 local IsPremium = false
 
 checkkey.MouseButton1Click:Connect(function()
-    setclipboard("https://authlink.org/p/${Params.id}")
+    -- EDIT ME IF UNSET
+    setclipboard("https://${HostList.browser}/p/${Params.id}")
+    -- EDIT ME IF UNSET
 end)
 
 getkey.MouseButton1Click:Connect(function()
@@ -316,7 +320,9 @@ using System.Text;
 using System.Text.Json;
 
 const string ClientVersion = "v1";
+// EDIT ME IF UNSET
 const string API_Endpoint = "https://${HostList.auth}/";
+// EDIT ME IF UNSET
 const string API_Version = API_Endpoint + "version";
 
 string Get(string uri)
