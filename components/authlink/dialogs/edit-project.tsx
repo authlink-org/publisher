@@ -42,6 +42,7 @@ import { CopyBlock } from "react-code-blocks";
 
 import "highlight.js/styles/vs.css";
 import { useParams } from "next/navigation";
+import GetHostList from "@/actions/hosts/gethostlist";
 
 export default function EditProjectDialog({
   id,
@@ -72,10 +73,22 @@ export default function EditProjectDialog({
 }) {
   const Params = useParams();
 
-  const Languages = {
-    Lua: `
-loadstring(game:HttpGet("https://raw.githubusercontent.com/MaHuJa/CC-scripts/master/sha256.lua"))()
+  const [HostList, setHostList] = useState({
+    publisher: "NULL",
+    browser: "NULL",
+    auth: "NULL",
+    payments: "NULL",
+  });
 
+  useEffect(() => {
+    GetHostList().then((_HostList) => {
+      setHostList(_HostList);
+    });
+  }, []);
+
+  function GetLANG_LUA() {
+    return `
+loadstring(game:HttpGet("https://raw.githubusercontent.com/MaHuJa/CC-scripts/master/sha256.lua"))()
 local authlinkkey = Instance.new("ScreenGui")
 local background = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -186,7 +199,7 @@ TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.TextSize = 20.000
 
 local ClientVersion = "v1.1"
-local API_Endpoint = "https://auth.authlink.org/"
+local API_Endpoint = "https://${HostList.auth}/"
 
 function a_error(msg, ...)
   return warn(("[AuthLink - %s]: %s"):format(ClientVersion, msg:format(...)))
@@ -292,15 +305,18 @@ repeat task.wait() until IsAuthenticated
 
 print("Authenticated")
 print("Is Premium", IsPremium)
-  `,
-    CSharp: `
+  `;
+  }
+
+  function GetLANG_CS() {
+    return `
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
 const string ClientVersion = "v1";
-const string API_Endpoint = "https://auth.authlink.org/";
+const string API_Endpoint = "https://${HostList.auth}/";
 const string API_Version = API_Endpoint + "version";
 
 string Get(string uri)
@@ -375,8 +391,8 @@ class AuthLinkResponse
     public bool free { get; set; }
     public string validator { get; set; }
 }
-`,
-  };
+`;
+  }
 
   return (
     <Dialog>
@@ -402,7 +418,7 @@ class AuthLinkResponse
           <TabsContent value="roblox">
             <div className="overflow-auto max-h-96">
               <CopyBlock
-                text={Languages.Lua}
+                text={GetLANG_LUA()}
                 language={"julia"}
                 showLineNumbers={false}
                 codeBlock={true}
@@ -412,7 +428,7 @@ class AuthLinkResponse
           <TabsContent value="cs">
             <div className="overflow-auto max-h-96">
               <CopyBlock
-                text={Languages.CSharp}
+                text={GetLANG_CS()}
                 language={"cs"}
                 showLineNumbers={false}
                 codeBlock={true}
